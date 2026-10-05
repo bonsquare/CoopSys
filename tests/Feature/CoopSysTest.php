@@ -7,8 +7,10 @@ use App\Models\JournalLine;
 use App\Models\Loan;
 use App\Models\LoanProduct;
 use App\Models\Member;
+use App\Models\Organization;
 use App\Models\Transaction;
 use App\Models\User;
+use App\Support\Tenant;
 use Database\Seeders\DatabaseSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -21,6 +23,7 @@ class CoopSysTest extends TestCase
     {
         parent::setUp();
         $this->seed(DatabaseSeeder::class);
+        Tenant::set(Organization::value('id'));   // work inside the demo organization
     }
 
     private function as(string $role): static
@@ -36,12 +39,12 @@ class CoopSysTest extends TestCase
 
     public function test_login_and_inactive_account(): void
     {
-        $this->post('/login', ['email' => 'admin@coopsys.test', 'password' => 'password'])->assertRedirect('/dashboard');
+        $this->post('/login', ['organization' => 'CS-DEMO01', 'email' => 'admin@coopsys.test', 'password' => 'password'])->assertRedirect('/dashboard');
         $this->post('/logout');
 
         User::where('email', 'staff@coopsys.test')->update(['is_active' => false]);
-        $this->post('/login', ['email' => 'staff@coopsys.test', 'password' => 'password'])->assertSessionHasErrors('email');
-        $this->post('/login', ['email' => 'admin@coopsys.test', 'password' => 'wrong'])->assertSessionHasErrors('email');
+        $this->post('/login', ['organization' => 'CS-DEMO01', 'email' => 'staff@coopsys.test', 'password' => 'password'])->assertSessionHasErrors('email');
+        $this->post('/login', ['organization' => 'CS-DEMO01', 'email' => 'admin@coopsys.test', 'password' => 'wrong'])->assertSessionHasErrors('email');
     }
 
     public function test_every_role_gets_the_right_pages(): void

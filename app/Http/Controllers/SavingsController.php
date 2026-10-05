@@ -7,6 +7,7 @@ use App\Models\Member;
 use App\Models\Setting;
 use App\Models\Transaction;
 use App\Services\TransactionService;
+use App\Support\Tenant;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -100,8 +101,8 @@ class SavingsController extends Controller
     {
         $data = $request->validate([
             'kind' => ['required', Rule::in(self::TELLER_TYPES)],
-            'member_id' => 'required|exists:members,id',
-            'loan_id' => 'nullable|required_if:kind,loan_payment|exists:loans,id',
+            'member_id' => ['required', Tenant::exists('members')],
+            'loan_id' => ['nullable', 'required_if:kind,loan_payment', Tenant::exists('loans')],
             'amount' => 'required|numeric|min:0.01|max:100000000',
             'payment_method' => ['nullable', Rule::in(array_keys(config('coop.payment_methods')))],
             'payment_ref' => 'nullable|string|max:60',

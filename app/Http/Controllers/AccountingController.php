@@ -7,6 +7,7 @@ use App\Models\Account;
 use App\Models\JournalEntry;
 use App\Services\AccountingService;
 use App\Services\FinancialReportService;
+use App\Support\Tenant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 
@@ -150,7 +151,7 @@ class AccountingController extends Controller
 
     public function ledger(Request $request)
     {
-        $input = $request->validate(['account' => 'nullable|exists:accounts,id', 'from' => 'nullable|date', 'to' => 'nullable|date|after_or_equal:from']);
+        $input = $request->validate(['account' => ['nullable', Tenant::exists('accounts')], 'from' => 'nullable|date', 'to' => 'nullable|date|after_or_equal:from']);
         $account = Account::find($input['account'] ?? null) ?? Account::orderBy('code')->first();
         $from = $input['from'] ?? now()->startOfYear()->toDateString();
         $to = $input['to'] ?? now()->toDateString();

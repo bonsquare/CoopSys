@@ -5,6 +5,15 @@
 @section('content')
 <x-page-header title="Settings" subtitle="Cooperative information and business rules." />
 
+<x-card class="max-w-3xl" title="Your organization" subtitle="Everyone on your team needs the Organization ID to sign in.">
+    <div class="p-space-md grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div><div class="field-label">Organization ID</div><div class="font-mono font-bold text-primary text-lg">{{ $organization->code }}</div></div>
+        <div><div class="field-label">Plan</div><div class="font-semibold">{{ config("coop.plans.{$organization->plan}.label", ucfirst($organization->plan)) }}</div></div>
+        <div><div class="field-label">Status</div><div class="font-semibold">{{ ucfirst($organization->status) }}</div></div>
+        <div><div class="field-label">{{ $organization->onTrial() ? 'Trial ends' : 'Member since' }}</div><div class="font-semibold">{{ ($organization->onTrial() ? $organization->trial_ends_at : $organization->created_at)?->format('M d, Y') }}</div></div>
+    </div>
+</x-card>
+
 <x-card class="max-w-3xl">
     <form method="POST" action="{{ route('settings.update') }}" class="p-space-md grid grid-cols-1 md:grid-cols-2 gap-4">
         @csrf @method('PUT')

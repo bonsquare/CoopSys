@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\AuditLog;
 use App\Models\User;
+use App\Support\Tenant;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
@@ -13,7 +14,7 @@ class UserController extends Controller
 {
     public function index()
     {
-        return view('users.index', ['users' => User::orderBy('name')->get()]);
+        return view('users.index', ['users' => User::inOrganization()->orderBy('name')->get()]);
     }
 
     public function create()
@@ -23,9 +24,14 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
+        $limit = Tenant::current()?->limit('users');
+        if ($limit !== null && User::inOrganization()->count() >= $limit) {
+            return back()->withInput()->withErrors(['email' => "Your plan allows up to $limit users. Please upgrade your plan to add more."]);
+        }
+
         $data = $request->validate([
             'name' => 'required|string|max:100',
-            'email' => 'required|email|max:120|unique:users,email',
+            'email' => ['required', 'email', 'max:120', Tenant::unique('users', 'email')],
             'role' => ['required', Rule::in(array_keys(config('coop.roles')))],
             'password' => ['required', 'confirmed', Password::min(8)],
         ]);
@@ -45,7 +51,7 @@ class UserController extends Controller
     {
         $data = $request->validate([
             'name' => 'required|string|max:100',
-            'email' => ['required', 'email', 'max:120', Rule::unique('users', 'email')->ignore($user->id)],
+            'email' => ['required', 'email', 'max:120', Tenant::unique('users', 'email', $user->id)],
             'role' => ['required', Rule::in(array_keys(config('coop.roles')))],
             'password' => ['nullable', 'confirmed', Password::min(8)],
         ]);
@@ -82,6 +88,6 @@ class UserController extends Controller
     /** Is $user the only active Super Admin left? */
     private function lastSuperAdmin(User $user): bool
     {
-        return User::where('role', 'super_admin')->where('is_active', true)->where('id', '!=', $user->id)->doesntExist();
+        return User::inOrganization()->where('role', 'super_admin')->where('is_active', true)->where('id', '!=', $user->id)->doesntExist();
     }
 }

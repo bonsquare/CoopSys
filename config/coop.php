@@ -67,4 +67,17 @@ return [
         'board_meeting' => '',
         'board_note' => '',
     ],
+
+    // Can new organizations sign themselves up at /register? Set COOP_REGISTRATION=false to close sign-ups.
+    'registration' => (bool) env('COOP_REGISTRATION', true),
+
+    // Free trial length for a new organization
+    'trial_days' => (int) env('COOP_TRIAL_DAYS', 30),
+
+    // Plans and their limits (null = unlimited). Change a customer's plan with: php artisan organization:plan CODE PLAN
+    'plans' => [
+        'trial' => ['label' => 'Free trial', 'limits' => ['users' => 5, 'members' => 100]],
+        'standard' => ['label' => 'Standard', 'limits' => ['users' => 25, 'members' => 5000]],
+        'unlimited' => ['label' => 'Unlimited', 'limits' => ['users' => null, 'members' => null]],
+    ],
 ];

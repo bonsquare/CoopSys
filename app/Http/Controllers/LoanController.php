@@ -8,6 +8,7 @@ use App\Models\Member;
 use App\Services\LoanCalculator;
 use App\Services\LoanScheduleService;
 use App\Services\LoanService;
+use App\Support\Tenant;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
@@ -43,8 +44,8 @@ class LoanController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'member_id' => 'required|exists:members,id',
-            'loan_product_id' => 'required|exists:loan_products,id',
+            'member_id' => ['required', Tenant::exists('members')],
+            'loan_product_id' => ['required', Tenant::exists('loan_products')],
             'principal' => 'required|numeric|min:100|max:100000000',
             'term' => 'required|integer|min:1|max:3650',
             'purpose' => 'nullable|string|max:255',

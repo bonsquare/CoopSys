@@ -6,6 +6,7 @@ use App\Models\Collection;
 use App\Models\Member;
 use App\Models\User;
 use App\Services\CollectionService;
+use App\Support\Tenant;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
@@ -59,9 +60,9 @@ class CollectionController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'collection_id' => 'nullable|exists:collections,id',
+            'collection_id' => ['nullable', Tenant::exists('collections')],
             'action' => 'required|in:draft,post',
-            'member_id' => 'required|exists:members,id',
+            'member_id' => ['required', Tenant::exists('members')],
             'collection_type' => ['required', Rule::in(array_keys(config('collections.types')))],
             'collection_date' => 'required|date|before_or_equal:today',
             'payment_method' => ['required', Rule::in(array_keys(config('coop.payment_methods')))],
@@ -72,7 +73,7 @@ class CollectionController extends Controller
             'remarks' => 'nullable|string|max:255',
             'lines' => 'required|array|min:1|max:30',
             'lines.*.allocation_type' => ['required', Rule::in(array_keys(config('collections.allocations')))],
-            'lines.*.loan_id' => 'nullable|exists:loans,id',
+            'lines.*.loan_id' => ['nullable', Tenant::exists('loans')],
             'lines.*.amount' => 'required|numeric|min:0.01|max:1000000000',
             'lines.*.due_amount' => 'nullable|numeric|min:0',
         ], [
@@ -137,10 +138,10 @@ class CollectionController extends Controller
     public function suggest(Request $request)
     {
         $data = $request->validate([
-            'member_id' => 'required|exists:members,id',
+            'member_id' => ['required', Tenant::exists('members')],
             'amount' => 'required|numeric|min:0.01|max:1000000000',
             'type' => ['required', Rule::in(array_keys(config('collections.types')))],
-            'loan_id' => 'nullable|exists:loans,id',
+            'loan_id' => ['nullable', Tenant::exists('loans')],
         ]);
 
         return response()->json($this->service->suggest(Member::findOrFail($data['member_id']), (float) $data['amount'], $data['type'], $data['loan_id'] ?? null));

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\AuditLog;
 use App\Models\Member;
+use App\Support\Tenant;
 use Illuminate\Http\Request;
 
 class MemberController extends Controller
@@ -35,6 +36,11 @@ class MemberController extends Controller
     public function store(Request $request)
     {
         $data = $this->validated($request);
+        $limit = Tenant::current()?->limit('members');
+        if ($limit !== null && Member::count() >= $limit) {
+            return back()->withInput()->withErrors(['first_name' => "Your plan allows up to $limit members. Please upgrade your plan to add more."]);
+        }
+
         $data['member_no'] = Member::nextNumber();
         $data['status'] = 'active';
 

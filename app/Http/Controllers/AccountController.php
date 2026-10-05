@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Account;
 use App\Models\AuditLog;
 use App\Services\AccountingService;
+use App\Support\Tenant;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -95,7 +96,7 @@ class AccountController extends Controller
     private function rules(?Account $account = null): array
     {
         return [
-            'code' => ['required', 'regex:/^[A-Za-z0-9\-\.]{2,12}$/', Rule::unique('accounts', 'code')->ignore($account?->id)],
+            'code' => ['required', 'regex:/^[A-Za-z0-9\-\.]{2,12}$/', Tenant::unique('accounts', 'code', $account?->id)],
             'name' => 'required|string|max:100',
             'type' => ['required', Rule::in(array_keys(Account::TYPES))],
             'description' => 'nullable|string|max:255',

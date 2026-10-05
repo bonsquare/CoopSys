@@ -6,8 +6,10 @@ use App\Models\Account;
 use App\Models\JournalEntry;
 use App\Models\JournalLine;
 use App\Models\Member;
+use App\Models\Organization;
 use App\Models\User;
 use App\Services\AccountingService;
+use App\Support\Tenant;
 use Database\Seeders\DatabaseSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -20,6 +22,7 @@ class AccountingTest extends TestCase
     {
         parent::setUp();
         $this->seed(DatabaseSeeder::class);
+        Tenant::set(Organization::value('id'));   // work inside the demo organization
     }
 
     private function as(string $role): static

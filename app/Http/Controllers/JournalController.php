@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Account;
 use App\Models\JournalEntry;
 use App\Services\AccountingService;
+use App\Support\Tenant;
 use Illuminate\Http\Request;
 
 class JournalController extends Controller
@@ -37,7 +38,7 @@ class JournalController extends Controller
             'reference' => 'nullable|string|max:60',
             'description' => 'required|string|max:255',
             'lines' => 'required|array|min:2|max:40',
-            'lines.*.account_id' => 'required|exists:accounts,id',
+            'lines.*.account_id' => ['required', Tenant::exists('accounts')],
             'lines.*.debit' => 'nullable|numeric|min:0|max:1000000000',
             'lines.*.credit' => 'nullable|numeric|min:0|max:1000000000',
             'lines.*.memo' => 'nullable|string|max:150',

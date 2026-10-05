@@ -8,6 +8,7 @@ use App\Models\JournalLine;
 use App\Models\Loan;
 use App\Models\LoanProduct;
 use App\Models\Member;
+use App\Models\Organization;
 use App\Models\Setting;
 use App\Models\User;
 use App\Services\AccountingService;
@@ -15,6 +16,7 @@ use App\Services\FinancialReportService;
 use App\Services\LoanService;
 use App\Services\PeriodClosingService;
 use App\Services\PortfolioReportService;
+use App\Support\Tenant;
 use Database\Seeders\DatabaseSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Validation\ValidationException;
@@ -28,6 +30,7 @@ class AccountingReportsTest extends TestCase
     {
         parent::setUp();
         $this->seed(DatabaseSeeder::class);
+        Tenant::set(Organization::value('id'));   // work inside the demo organization
     }
 
     private function as(string $role): static

@@ -6,6 +6,7 @@ use App\Models\Loan;
 use App\Models\Member;
 use App\Models\Transaction;
 use App\Services\TransactionService;
+use App\Support\Tenant;
 use Illuminate\Http\Request;
 
 class CashController extends Controller
@@ -67,8 +68,8 @@ class CashController extends Controller
     {
         return $request->validate([
             'type' => 'required|in:'.implode(',', $types),
-            'member_id' => 'nullable|exists:members,id',
-            'loan_id' => 'nullable|exists:loans,id',
+            'member_id' => ['nullable', Tenant::exists('members')],
+            'loan_id' => ['nullable', Tenant::exists('loans')],
             'amount' => 'required|numeric|min:0.01|max:100000000',
             'remarks' => 'nullable|string|max:255',
         ]);

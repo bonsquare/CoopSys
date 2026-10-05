@@ -6,6 +6,7 @@ use App\Models\AuditLog;
 use App\Models\Member;
 use App\Models\Transaction;
 use App\Services\TransactionService;
+use App\Support\Tenant;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
@@ -30,7 +31,7 @@ class ShareCapitalController extends Controller
     public function payment(Request $request, TransactionService $service)
     {
         $data = $request->validate([
-            'member_id' => 'required|exists:members,id',
+            'member_id' => ['required', Tenant::exists('members')],
             'amount' => 'required|numeric|min:0.01|max:100000000',
             'remarks' => 'nullable|string|max:255',
         ]);

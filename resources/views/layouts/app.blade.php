@@ -40,6 +40,7 @@
     ];
     $coopName = \App\Models\Setting::get('coop_name');
     $branch = \App\Models\Setting::get('branch_name');
+    $org = \App\Support\Tenant::current();
 @endphp
 
 <!-- Sidebar -->
@@ -97,6 +98,7 @@
             </button>
             <div class="hidden sm:flex items-center gap-space-xs font-label-md text-label-md text-on-surface-variant">
                 <span class="text-outline truncate">{{ $coopName }}</span>
+                @if ($org)<span class="font-mono text-[11px] px-1.5 py-0.5 rounded bg-surface-container-high text-primary font-semibold" title="Organization ID">{{ $org->code }}</span>@endif
             </div>
             <div class="h-4 w-px bg-outline-variant hidden lg:block"></div>
             <div class="hidden lg:flex items-center gap-space-xs bg-surface-container-lowest px-space-sm py-space-xs rounded-lg shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
@@ -142,6 +144,13 @@
     <!-- Page content goes here -->
     <main class="relative pt-16 w-full bg-surface min-h-screen">
         <div class="px-margin-lg py-gutter-lg flex flex-col gap-space-xl">
+
+            @if ($org && $org->onTrial())
+                <div class="no-print flex items-center gap-space-sm px-space-md py-space-sm rounded-lg font-label-md text-label-md {{ $org->trialExpired() ? 'bg-error-container text-on-error-container' : 'bg-surface-container-high text-primary' }}">
+                    <span class="material-symbols-outlined text-[18px]">{{ $org->trialExpired() ? 'lock' : 'hourglass_top' }}</span>
+                    {{ $org->trialExpired() ? 'Your free trial has ended. Your records are read-only until you choose a plan.' : 'Free trial: '.$org->trialDaysLeft().' '.\Illuminate\Support\Str::plural('day', $org->trialDaysLeft()).' left.' }}
+                </div>
+            @endif
 
             @if (session('status'))
                 <div class="no-print flex items-center gap-space-sm bg-secondary-fixed text-on-secondary-fixed px-space-md py-space-sm rounded-lg font-label-md text-label-md">

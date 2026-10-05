@@ -2,12 +2,13 @@
 
 namespace Database\Seeders;
 
-use App\Models\Account;
 use App\Models\LoanProduct;
 use App\Models\Member;
+use App\Models\Organization;
 use App\Models\Setting;
 use App\Models\User;
 use App\Services\LoanService;
+use App\Services\OrganizationService;
 use App\Services\TransactionService;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Auth;
@@ -16,6 +17,7 @@ use Illuminate\Support\Facades\Auth;
  * Run with:  php artisan migrate:fresh --seed
  *
  * DEMO LOGINS (local testing only, change or delete them before going live):
+ *   Organization ID: CS-DEMO01
  *   Every demo user below uses the password in $demoPassword.
  *   admin@coopsys.test is the Super Admin.
  */
@@ -25,10 +27,18 @@ class DatabaseSeeder extends Seeder
 
     public function run(): void
     {
-        $this->chartOfAccounts();
-        $this->call(LoanProductSeeder::class);
-        $this->settings();
-        $users = $this->users();
+        // The demo organization gets its own chart of accounts, loan products and settings,
+        // exactly like a real customer does when they register.
+        [$org] = app(OrganizationService::class)->provision(
+            ['name' => 'CoopSys Demo Cooperative', 'email' => 'admin@coopsys.test', 'plan' => 'unlimited'],
+            ['name' => 'Admin User', 'email' => 'admin@coopsys.test', 'password' => $this->demoPassword],
+        );
+        $org->update(['code' => 'CS-DEMO01']);
+        Setting::put('branch_name', 'Main Cooperative Branch - District 1');
+        Setting::put('board_meeting', now()->addDays(20)->toDateString());
+        Setting::put('board_note', 'Annual General Assembly Preparation');
+
+        $users = $this->users($org);
 
         // Post demo transactions as the Super Admin so they show "Handled By"
         Auth::login($users['super_admin']);
@@ -36,40 +46,7 @@ class DatabaseSeeder extends Seeder
         Auth::logout();
     }
 
-    private function chartOfAccounts(): void
-    {
-        // The last column marks accounts the system posts to automatically (they cannot be deleted or deactivated)
-        $accounts = [
-            ['1010', 'Cash on Hand', 'asset', true],
-            ['1011', 'Cash in Bank', 'asset', true],
-            ['1020', 'Loans Receivable', 'asset', true],
-            ['1030', 'Other Receivables', 'asset', true],
-            ['1040', 'Property and Equipment', 'asset', false],
-            ['2010', "Members' Savings Deposits", 'liability', true],
-            ['2020', 'Insurance Payable', 'liability', true],
-            ['2030', 'Accounts Payable', 'liability', false],
-            ['3010', 'Share Capital - Paid-up', 'equity', true],
-            ['3020', 'Retained Surplus', 'equity', false],
-            ['4010', 'Interest Income on Loans', 'income', true],
-            ['4020', 'Fees and Other Income', 'income', true],
-            ['4030', 'Penalty Income', 'income', true],
-            ['5010', 'Operating Expenses', 'expense', true],
-            ['5020', 'Salaries and Benefits', 'expense', false],
-            ['5030', 'Rent and Utilities', 'expense', false],
-            ['5040', 'Bank Charges', 'expense', false],
-        ];
-        foreach ($accounts as [$code, $name, $type, $system]) {
-            Account::updateOrCreate(['code' => $code], ['name' => $name, 'type' => $type, 'is_system' => $system, 'report_group' => config("accounting.groups.$code")]);
-        }
-    }
-
-    private function settings(): void
-    {
-        Setting::put('board_meeting', now()->addDays(20)->toDateString());
-        Setting::put('board_note', 'Annual General Assembly Preparation');
-    }
-
-    private function users(): array
+    private function users(Organization $org): array
     {
         $list = [
             'super_admin' => ['Admin User', 'admin@coopsys.test'],
@@ -84,7 +61,7 @@ class DatabaseSeeder extends Seeder
         $users = [];
         foreach ($list as $role => [$name, $email]) {
             $users[$role] = User::updateOrCreate(
-                ['email' => $email],
+                ['organization_id' => $org->id, 'email' => $email],
                 ['name' => $name, 'role' => $role, 'is_active' => true, 'password' => $this->demoPassword]
             );
         }

@@ -2,19 +2,33 @@
 
 namespace App\Providers;
 
+use App\Models\User;
+use App\Support\Tenant;
+use Illuminate\Auth\Events\Authenticated;
+use Illuminate\Auth\Events\Login;
+use Illuminate\Auth\Events\Logout;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        //
+        $this->app->singleton(Tenant::class);
     }
 
     public function boot(): void
     {
+        // Whenever a user is signed in (or loaded from the session), work inside their organization
+        Event::listen([Login::class, Authenticated::class], fn ($event) => Tenant::set($event->user->organization_id));
+        Event::listen(Logout::class, fn () => Tenant::forget());
+
+        // {user} in a URL may only be someone from the same organization
+        Route::bind('user', fn (string $id) => User::inOrganization()->findOrFail($id));
+
         Paginator::useTailwind();
 
         // @peso($amount) prints e.g. ₱1,250.00

@@ -8,6 +8,27 @@
 */
 
 return [
+    // Chart of accounts given to every new organization: [code, name, type, used for automatic postings]
+    'default_chart' => [
+        ['1010', 'Cash on Hand', 'asset', true],
+        ['1011', 'Cash in Bank', 'asset', true],
+        ['1020', 'Loans Receivable', 'asset', true],
+        ['1030', 'Other Receivables', 'asset', true],
+        ['1040', 'Property and Equipment', 'asset', false],
+        ['2010', "Members' Savings Deposits", 'liability', true],
+        ['2020', 'Insurance Payable', 'liability', true],
+        ['2030', 'Accounts Payable', 'liability', false],
+        ['3010', 'Share Capital - Paid-up', 'equity', true],
+        ['3020', 'Retained Surplus', 'equity', false],
+        ['4010', 'Interest Income on Loans', 'income', true],
+        ['4020', 'Fees and Other Income', 'income', true],
+        ['4030', 'Penalty Income', 'income', true],
+        ['5010', 'Operating Expenses', 'expense', true],
+        ['5020', 'Salaries and Benefits', 'expense', false],
+        ['5030', 'Rent and Utilities', 'expense', false],
+        ['5040', 'Bank Charges', 'expense', false],
+    ],
+
     // Sections used on the financial statements. Each account has a "report group" (editable in the
     // Chart of Accounts). These are the defaults for the standard accounts.
     'groups' => [

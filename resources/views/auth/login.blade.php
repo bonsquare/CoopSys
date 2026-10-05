@@ -25,11 +25,17 @@
             @csrf
             <h1 class="text-lg font-semibold text-on-surface">Sign in</h1>
 
-            @error('email')
-                <div class="bg-error-container text-on-error-container text-sm px-3 py-2 rounded-lg">{{ $message }}</div>
-            @enderror
+            @if (session('status'))
+                <div class="bg-secondary-fixed text-on-secondary-fixed text-sm px-3 py-2 rounded-lg">{{ session('status') }}</div>
+            @endif
+            @foreach (['email', 'organization'] as $field)
+                @error($field)
+                    <div class="bg-error-container text-on-error-container text-sm px-3 py-2 rounded-lg">{{ $message }}</div>
+                @enderror
+            @endforeach
 
-            <x-field label="Email" name="email" type="email" required autofocus autocomplete="username" />
+            <x-field label="Organization ID" name="organization" :value="old('organization', request()->cookie('coop_org'))" required autofocus autocomplete="organization" placeholder="CS-ABC123" hint="Given to you when your organization was created." />
+            <x-field label="Email" name="email" type="email" required autocomplete="username" />
             <x-field label="Password" name="password" type="password" required autocomplete="current-password" />
 
             <label class="flex items-center gap-2 text-sm text-on-surface-variant">
@@ -37,6 +43,9 @@
             </label>
 
             <button type="submit" class="btn btn-primary justify-center">Sign in</button>
+            @if (config('coop.registration'))
+                <p class="text-sm text-center text-on-surface-variant">New here? <a href="{{ route('register') }}" class="text-primary font-semibold">Create an organization</a></p>
+            @endif
         </form>
     </div>
 

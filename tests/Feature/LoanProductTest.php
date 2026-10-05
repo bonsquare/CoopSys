@@ -6,9 +6,11 @@ use App\Models\JournalLine;
 use App\Models\Loan;
 use App\Models\LoanProduct;
 use App\Models\Member;
+use App\Models\Organization;
 use App\Models\Transaction;
 use App\Models\User;
 use App\Services\LoanCalculator;
+use App\Support\Tenant;
 use Database\Seeders\DatabaseSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -21,6 +23,7 @@ class LoanProductTest extends TestCase
     {
         parent::setUp();
         $this->seed(DatabaseSeeder::class);
+        Tenant::set(Organization::value('id'));   // work inside the demo organization
     }
 
     private function as(string $role): static

@@ -9,6 +9,7 @@ use App\Models\JournalLine;
 use App\Models\Loan;
 use App\Models\Setting;
 use App\Models\Transaction;
+use App\Support\Tenant;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
@@ -36,6 +37,7 @@ class AccountingService
         $rows = DB::table('journal_lines')
             ->join('journal_entries', 'journal_entries.id', '=', 'journal_lines.journal_entry_id')
             ->whereDate('journal_entries.entry_date', '<=', $to)
+            ->when(Tenant::id(), fn ($q, $id) => $q->where('journal_entries.organization_id', $id))
             ->when($from, fn ($q) => $q->whereDate('journal_entries.entry_date', '>=', $from))
             ->when($excludeClosing, fn ($q) => $q->where('journal_entries.source', '!=', 'closing'))
             ->groupBy('journal_lines.account_id')
@@ -202,6 +204,7 @@ class AccountingService
     {
         $before = DB::table('journal_lines')->join('journal_entries', 'journal_entries.id', '=', 'journal_lines.journal_entry_id')
             ->where('journal_lines.account_id', $account->id)->whereDate('journal_entries.entry_date', '<', $from)
+            ->when(Tenant::id(), fn ($q, $id) => $q->where('journal_entries.organization_id', $id))
             ->selectRaw('sum(journal_lines.debit) as d, sum(journal_lines.credit) as c')->first();
         $opening = $account->balanceOf((float) ($before->d ?? 0), (float) ($before->c ?? 0));
 
@@ -352,6 +355,7 @@ class AccountingService
         $manualCash = (float) DB::table('journal_lines')
             ->join('journal_entries', 'journal_entries.id', '=', 'journal_lines.journal_entry_id')
             ->where('journal_entries.source', 'manual')
+            ->when(Tenant::id(), fn ($q, $id) => $q->where('journal_entries.organization_id', $id))
             ->whereIn('journal_lines.account_id', Account::whereIn('code', ['1010', '1011'])->pluck('id'))
             ->whereDate('journal_entries.entry_date', '<=', $asOf)
             ->selectRaw('coalesce(sum(journal_lines.debit) - sum(journal_lines.credit), 0) as net')->value('net');

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\AuditLog;
 use App\Models\LoanProduct;
 use App\Services\LoanCalculator;
+use App\Support\Tenant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
@@ -152,7 +153,7 @@ class LoanProductController extends Controller
         $data = $request->validate([
             // A. Basic information
             'name' => 'required|string|max:80',
-            'code' => ['required', 'alpha_dash', 'max:12', Rule::unique('loan_products', 'code')->ignore($product?->id)],
+            'code' => ['required', 'alpha_dash', 'max:12', Tenant::unique('loan_products', 'code', $product?->id)],
             'category' => 'nullable|string|max:60',
             'description' => 'nullable|string|max:500',
             'is_active' => $yesNo,

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\AuditLog;
 use App\Models\Setting;
+use App\Support\Tenant;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -20,6 +21,7 @@ class SettingController extends Controller
 
         return view('settings.edit', [
             'values' => $values,
+            'organization' => Tenant::current(),
             'logs' => AuditLog::with('user')->latest('id')->limit(30)->get(),
         ]);
     }
@@ -49,6 +51,7 @@ class SettingController extends Controller
         foreach (self::KEYS as $key) {
             Setting::put($key, $data[$key] ?? '');
         }
+        Tenant::current()?->update(['name' => $data['coop_name']]);
         AuditLog::record('settings.updated', 'Settings changed');
 
         return back()->with('status', 'Settings saved.');

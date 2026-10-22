@@ -37,7 +37,7 @@
                     @foreach ($e->lines as $l)
                         <tr>
                             <td></td><td></td>
-                            <td class="{{ $l->credit > 0 ? 'pl-10' : 'pl-4' }}">{{ $l->account->label() }}@if ($l->memo)<span class="text-[11px] text-outline ml-2">{{ $l->memo }}</span>@endif</td>
+                            <td class="{{ $l->credit > 0 ? 'pl-10' : 'pl-4' }}">{{ $l->account->label() }}@if ($l->memo)<span class="text-xs text-outline ml-2">{{ $l->memo }}</span>@endif</td>
                             <td class="num">{{ $l->debit > 0 ? '₱' . number_format($l->debit, 2) : '' }}</td>
                             <td class="num">{{ $l->credit > 0 ? '₱' . number_format($l->credit, 2) : '' }}</td>
                         </tr>

@@ -41,12 +41,12 @@
                       onsubmit="return confirm('Reverse this entry? A new entry that swaps every debit and credit will be posted.')">
                     @csrf
                     <label class="field-label" for="reason">Reverse this entry</label>
-                    <input id="reason" name="reason" required maxlength="150" class="input" placeholder="Reason">
+                    <input aria-label="Reason" id="reason" name="reason" required maxlength="150" class="input" placeholder="Reason">
                     <button class="btn btn-danger">Reverse entry</button>
                 </form>
             @endallowed
         @elseif (! $entry->isManual())
-            <p class="p-space-md pt-0 text-[11px] text-outline">This entry was posted from a transaction. To undo it, cancel the transaction or receipt.</p>
+            <p class="p-space-md pt-0 text-xs text-outline">This entry was posted from a transaction. To undo it, cancel the transaction or receipt.</p>
         @endif
     </x-card>
 

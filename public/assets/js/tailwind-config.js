@@ -49,7 +49,7 @@ tailwind.config = {
                 "on-error": "#ffffff",
                 "secondary": "#006e2d",
                 "on-primary-container": "#90a8ff",
-                "outline": "#757682",
+                "outline": "#5a5d69",
                 "tertiary": "#00246b",
                 "primary-container": "#1e3a8a"
             },

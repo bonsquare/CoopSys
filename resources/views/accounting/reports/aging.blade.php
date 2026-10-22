@@ -12,8 +12,8 @@
 @include('accounting._print-header', ['title' => 'Loan Portfolio Aging', 'subtitle' => 'As of ' . \Illuminate\Support\Carbon::parse($aging['as_of'])->format('M d, Y')])
 
 <div class="grid grid-cols-2 lg:grid-cols-5 gap-gutter">
-    <x-card class="p-space-md"><div class="field-label">Loan book</div><div class="font-headline-md text-headline-md font-bold">@peso($aging['total_balance'])</div><div class="text-[11px] text-outline">{{ $aging['total_count'] }} active loans</div></x-card>
-    <x-card class="p-space-md"><div class="field-label">Overdue amount</div><div class="font-headline-md text-headline-md font-bold {{ $aging['total_overdue'] > 0 ? 'text-error' : '' }}">@peso($aging['total_overdue'])</div><div class="text-[11px] text-outline">Installments missed</div></x-card>
+    <x-card class="p-space-md"><div class="field-label">Loan book</div><div class="font-headline-md text-headline-md font-bold">@peso($aging['total_balance'])</div><div class="text-xs text-outline">{{ $aging['total_count'] }} active loans</div></x-card>
+    <x-card class="p-space-md"><div class="field-label">Overdue amount</div><div class="font-headline-md text-headline-md font-bold {{ $aging['total_overdue'] > 0 ? 'text-error' : '' }}">@peso($aging['total_overdue'])</div><div class="text-xs text-outline">Installments missed</div></x-card>
     <x-card class="p-space-md"><div class="field-label">PAR over 0 days</div><div class="font-headline-md text-headline-md font-bold">{{ $aging['par'][0] }}%</div></x-card>
     <x-card class="p-space-md"><div class="field-label">PAR over 30 days</div><div class="font-headline-md text-headline-md font-bold">{{ $aging['par'][30] }}%</div></x-card>
     <x-card class="p-space-md"><div class="field-label">PAR over 90 days</div><div class="font-headline-md text-headline-md font-bold">{{ $aging['par'][90] }}%</div></x-card>
@@ -42,7 +42,7 @@
             </tbody>
         </table>
     </div>
-    <p class="p-space-md text-[11px] text-outline">PAR (portfolio at risk) is the share of the loan book that is more than that many days past due. The allowance is a suggestion using the rates in config/accounting.php. It is not booked automatically: record it with a journal entry if you decide to set it aside.</p>
+    <p class="p-space-md text-xs text-outline">PAR (portfolio at risk) is the share of the loan book that is more than that many days past due. The allowance is a suggestion using the rates in config/accounting.php. It is not booked automatically: record it with a journal entry if you decide to set it aside.</p>
 </x-card>
 
 <x-card title="Loans by Days Past Due" subtitle="Most overdue first">

@@ -33,19 +33,19 @@
                 @foreach ($members as $m)
                     @php $pct = $m->subscribed_shares > 0 ? min(100, round($m->paid_up / $m->subscribed_shares * 100)) : 0; @endphp
                     <tr>
-                        <td><a href="{{ route('members.show', $m) }}" class="font-medium text-primary">{{ $m->last_name }}, {{ $m->first_name }}</a><div class="text-[11px] text-outline">{{ $m->member_no }}</div></td>
+                        <td><a href="{{ route('members.show', $m) }}" class="font-medium text-primary">{{ $m->last_name }}, {{ $m->first_name }}</a><div class="text-xs text-outline">{{ $m->member_no }}</div></td>
                         <td class="num">@peso($m->subscribed_shares)</td>
                         <td class="num text-secondary font-semibold">@peso($m->paid_up)</td>
                         <td class="num">@peso($m->subscribed_shares - $m->paid_up)</td>
                         <td class="w-32">
                             <div class="h-2 bg-surface-container rounded-full overflow-hidden"><div class="h-2 bg-secondary" style="width: {{ $pct }}%"></div></div>
-                            <div class="text-[11px] text-outline mt-0.5">{{ $pct }}%</div>
+                            <div class="text-xs text-outline mt-0.5">{{ $pct }}%</div>
                         </td>
                         @allowed('share', 'manage')
                         <td class="no-print">
                             <form method="POST" action="{{ route('share.subscription', $m) }}" class="flex gap-1">
                                 @csrf
-                                <input type="number" step="0.01" min="0" name="subscribed_shares" value="{{ $m->subscribed_shares }}" class="input w-32 py-1">
+                                <input aria-label="Subscribed shares for {{ $m->first_name }} {{ $m->last_name }}" type="number" step="0.01" min="0" name="subscribed_shares" value="{{ $m->subscribed_shares }}" class="input w-32 py-1">
                                 <button class="btn btn-secondary btn-sm">Save</button>
                             </form>
                         </td>

@@ -14,10 +14,10 @@
             <tbody>
                 @foreach ($users as $u)
                     <tr>
-                        <td class="font-medium">{{ $u->name }} @if ($u->id === auth()->id()) <span class="text-[11px] text-outline">(you)</span> @endif</td>
+                        <td class="font-medium">{{ $u->name }} @if ($u->id === auth()->id()) <span class="text-xs text-outline">(you)</span> @endif</td>
                         <td>{{ $u->email }}</td>
                         <td>{{ $u->roleLabel() }}</td>
-                        <td><span class="inline-flex px-2 py-0.5 rounded text-[11px] font-semibold {{ $u->is_active ? 'bg-secondary-fixed text-on-secondary-fixed' : 'bg-surface-container text-outline' }}">{{ $u->is_active ? 'Active' : 'Inactive' }}</span></td>
+                        <td><span class="inline-flex px-2 py-0.5 rounded text-xs font-semibold {{ $u->is_active ? 'bg-secondary-fixed text-on-secondary-fixed' : 'bg-surface-container text-outline' }}">{{ $u->is_active ? 'Active' : 'Inactive' }}</span></td>
                         <td class="no-print whitespace-nowrap">
                             <a href="{{ route('users.edit', $u) }}" class="btn btn-secondary btn-sm">Edit</a>
                             @if ($u->id !== auth()->id())
@@ -47,7 +47,7 @@
                             @php
                                 $can = collect($levels)->map(fn ($roles, $level) => ($key === 'super_admin' || in_array($key, $roles)) ? $level : null)->filter()->values();
                             @endphp
-                            <td class="text-center text-[11px]">{{ $can->isEmpty() ? '—' : $can->implode(', ') }}</td>
+                            <td class="text-center text-xs">{{ $can->isEmpty() ? '—' : $can->implode(', ') }}</td>
                         @endforeach
                     </tr>
                 @endforeach

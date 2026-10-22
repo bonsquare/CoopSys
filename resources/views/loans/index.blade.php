@@ -28,15 +28,15 @@
                 @forelse ($loans as $loan)
                     <tr>
                         <td class="font-mono text-[12px] font-semibold text-primary">{{ $loan->loan_no }}</td>
-                        <td>{{ $loan->member->full_name }}<div class="text-[11px] text-outline">{{ $loan->member->member_no }}</div></td>
+                        <td>{{ $loan->member->full_name }}<div class="text-xs text-outline">{{ $loan->member->member_no }}</div></td>
                         <td class="num">@peso($loan->principal)</td>
                         <td>{{ $loan->term_value ?? $loan->term_months }} {{ strtolower(\App\Models\LoanProduct::label('term_units', $loan->term_unit)) }}</td>
                         <td class="num font-semibold">@peso($loan->balance)</td>
                         <td>
                             {{ $loan->maturity_date?->format('M d, Y') ?? '—' }}
-                            @if ($loan->isPastDue()) <span class="ml-1 px-1.5 py-0.5 rounded text-[10px] font-bold bg-error-container text-on-error-container">PAST DUE</span> @endif
+                            @if ($loan->isPastDue()) <span class="ml-1 px-1.5 py-0.5 rounded text-xs font-bold bg-error-container text-on-error-container">PAST DUE</span> @endif
                         </td>
-                        <td><span class="inline-flex px-2 py-0.5 rounded text-[11px] font-semibold {{ \App\Models\Loan::statusColor($loan->status) }}">{{ ucfirst($loan->status) }}</span></td>
+                        <td><span class="inline-flex px-2 py-0.5 rounded text-xs font-semibold {{ \App\Models\Loan::statusColor($loan->status) }}">{{ ucfirst($loan->status) }}</span></td>
                         <td class="no-print"><a href="{{ route('loans.show', $loan) }}" class="btn btn-secondary btn-sm">View</a></td>
                     </tr>
                 @empty

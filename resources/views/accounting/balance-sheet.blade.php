@@ -41,7 +41,7 @@
                         <tr class="font-semibold"><td colspan="{{ $cols }}" class="pt-3">{{ $group['name'] }}</td></tr>
                         @foreach ($group['lines'] as $l)
                             <tr>
-                                <td class="pl-6"><span class="font-mono text-[11px] text-outline mr-2">{{ $l['account']->code }}</span>{{ $l['account']->name }}</td>
+                                <td class="pl-6"><span class="font-mono text-xs text-outline mr-2">{{ $l['account']->code }}</span>{{ $l['account']->name }}</td>
                                 <td class="num">@acct($l['current'])</td>
                                 @if ($sheet['compare'])
                                     <td class="num text-on-surface-variant">@acct($l['previous'])</td>

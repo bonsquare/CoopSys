@@ -53,7 +53,7 @@
 
     <table class="w-full text-sm my-3">
         <thead>
-            <tr class="text-[11px] uppercase tracking-wider text-on-surface-variant text-left"><th class="py-1">Breakdown</th><th>Account</th><th class="text-right">Amount</th></tr>
+            <tr class="text-xs uppercase tracking-wider text-on-surface-variant text-left"><th class="py-1">Breakdown</th><th>Account</th><th class="text-right">Amount</th></tr>
         </thead>
         <tbody>
             @foreach ($c->lines as $line)
@@ -80,11 +80,11 @@
         <p class="mt-3 text-[12px] text-error">Cancelled {{ $c->cancelled_at?->format('M d, Y h:i A') }} by {{ $c->canceller?->name }}: {{ $c->cancel_reason }}</p>
     @endif
 
-    <div class="grid grid-cols-2 gap-6 pt-10 text-center text-[11px] text-on-surface-variant">
+    <div class="grid grid-cols-2 gap-6 pt-10 text-center text-xs text-on-surface-variant">
         <div><div class="border-t border-on-surface pt-1">Teller / cashier</div></div>
         <div><div class="border-t border-on-surface pt-1">Member / client signature</div></div>
     </div>
 
-    <p class="text-center text-[10px] text-outline mt-4">Printed by {{ auth()->user()->name }} on {{ now()->format('M d, Y h:i A') }}</p>
+    <p class="text-center text-xs text-outline mt-4">Printed by {{ auth()->user()->name }} on {{ now()->format('M d, Y h:i A') }}</p>
 </div>
 @endsection

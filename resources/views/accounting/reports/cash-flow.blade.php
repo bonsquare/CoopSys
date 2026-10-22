@@ -34,10 +34,10 @@
         <table class="data-table">
             <tbody>
                 @foreach ($titles as $key => $title)
-                    <tr class="bg-surface-container-low font-bold"><td colspan="2">{{ strtoupper($title) }}<div class="text-[11px] font-normal text-outline normal-case tracking-normal">{{ $notes[$key] }}</div></td></tr>
+                    <tr class="bg-surface-container-low font-bold"><td colspan="2">{{ strtoupper($title) }}<div class="text-xs font-normal text-outline normal-case tracking-normal">{{ $notes[$key] }}</div></td></tr>
                     @forelse ($cf['sections'][$key] as $l)
                         <tr>
-                            <td class="pl-6"><span class="font-mono text-[11px] text-outline mr-2">{{ $l['account']->code }}</span>{{ $l['account']->name }}</td>
+                            <td class="pl-6"><span class="font-mono text-xs text-outline mr-2">{{ $l['account']->code }}</span>{{ $l['account']->name }}</td>
                             <td class="num {{ $l['amount'] < 0 ? 'text-error' : '' }}">@acct($l['amount'])</td>
                         </tr>
                     @empty
@@ -55,6 +55,6 @@
     <div class="p-space-md text-sm font-semibold {{ $cf['agrees'] ? 'text-secondary' : 'text-error' }}">
         {{ $cf['agrees'] ? '✔ The closing cash agrees with the cash and bank accounts on the balance sheet.' : '✖ The cash flow does not agree with the cash accounts.' }}
     </div>
-    <p class="px-space-md pb-space-md text-[11px] text-outline">Direct method: every cash entry is placed in a section by the account on its other side. Accounts in the "Cash and Bank" report group are treated as cash.</p>
+    <p class="px-space-md pb-space-md text-xs text-outline">Direct method: every cash entry is placed in a section by the account on its other side. Accounts in the "Cash and Bank" report group are treated as cash.</p>
 </x-card>
 @endsection

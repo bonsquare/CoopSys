@@ -25,8 +25,8 @@
                         <td class="font-semibold">{{ $y['year'] }}</td>
                         <td class="num font-semibold {{ $y['net'] < 0 ? 'text-error' : '' }}">@acct($y['net'])</td>
                         <td>
-                            @if ($y['closed']) <span class="inline-flex px-2 py-0.5 rounded text-[11px] font-semibold bg-secondary-fixed text-on-secondary-fixed">Closed</span>
-                            @else <span class="inline-flex px-2 py-0.5 rounded text-[11px] font-semibold bg-surface-container text-on-surface-variant">Open</span> @endif
+                            @if ($y['closed']) <span class="inline-flex px-2 py-0.5 rounded text-xs font-semibold bg-secondary-fixed text-on-secondary-fixed">Closed</span>
+                            @else <span class="inline-flex px-2 py-0.5 rounded text-xs font-semibold bg-surface-container text-on-surface-variant">Open</span> @endif
                         </td>
                         <td>@if ($y['closing']) <a href="{{ route('accounting.journal.show', $y['closing']) }}" class="font-mono text-[12px] text-primary">{{ $y['closing']->entry_no }}</a> @else — @endif</td>
                         <td class="no-print whitespace-nowrap">
@@ -66,7 +66,7 @@
                         <tr><td colspan="3" class="text-on-surface-variant">There is nothing to close in this year.</td></tr>
                     @endforelse
                     <tr class="font-bold bg-surface-container-low">
-                        <td>3020 · Retained Surplus <span class="font-normal text-[11px] text-outline">({{ $preview['net'] >= 0 ? 'surplus added' : 'deficit deducted' }})</span></td>
+                        <td>3020 · Retained Surplus <span class="font-normal text-xs text-outline">({{ $preview['net'] >= 0 ? 'surplus added' : 'deficit deducted' }})</span></td>
                         <td class="num">{{ $preview['net'] < 0 ? '₱' . number_format(-$preview['net'], 2) : '' }}</td>
                         <td class="num">{{ $preview['net'] > 0 ? '₱' . number_format($preview['net'], 2) : '' }}</td>
                     </tr>

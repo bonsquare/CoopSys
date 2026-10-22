@@ -30,6 +30,15 @@ class Account extends Model
         return $this->hasMany(JournalLine::class);
     }
 
+    /** Next free account number for a type: 1xxx assets, 2xxx liabilities, 3xxx equity, 4xxx income, 5xxx expenses, in steps of 10. */
+    public static function nextCode(string $type): string
+    {
+        $first = (array_search($type, array_keys(self::TYPES), true) + 1) * 1000;
+        $last = static::whereBetween('code', [(string) $first, (string) ($first + 999)])->max('code');
+
+        return (string) max($first + 10, ((int) $last) + 10);
+    }
+
     public static function byCode(string $code): self
     {
         return static::where('code', $code)->firstOrFail();

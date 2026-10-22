@@ -24,7 +24,7 @@
 <div class="grid grid-cols-1 md:grid-cols-4 gap-gutter">
     <x-card class="p-space-md"><div class="field-label">Status</div>
         <span class="inline-flex px-2 py-0.5 rounded text-[12px] font-semibold {{ \App\Models\Loan::statusColor($loan->status) }}">{{ ucfirst($loan->status) }}</span>
-        @if ($loan->isPastDue()) <span class="ml-1 px-1.5 py-0.5 rounded text-[10px] font-bold bg-error-container text-on-error-container">PAST DUE</span> @endif
+        @if ($loan->isPastDue()) <span class="ml-1 px-1.5 py-0.5 rounded text-xs font-bold bg-error-container text-on-error-container">PAST DUE</span> @endif
     </x-card>
     <x-card class="p-space-md"><div class="field-label">Principal</div><div class="font-headline-md text-headline-md font-bold">@peso($loan->principal)</div></x-card>
     <x-card class="p-space-md"><div class="field-label">Total Payable</div><div class="font-headline-md text-headline-md font-bold">@peso($loan->total_payable)</div></x-card>

@@ -17,7 +17,7 @@
             <span class="material-symbols-outlined text-primary text-[36px]">diversity_3</span>
             <div>
                 <div class="text-xl font-bold text-primary leading-tight">CoopSys</div>
-                <div class="text-[11px] uppercase tracking-wider text-on-surface-variant">Management Portal</div>
+                <div class="text-xs uppercase tracking-wider text-on-surface-variant">Management Portal</div>
             </div>
         </div>
 
@@ -47,6 +47,24 @@
                 <p class="text-sm text-center text-on-surface-variant">New here? <a href="{{ route('register') }}" class="text-primary font-semibold">Create an organization</a></p>
             @endif
         </form>
+
+        {{-- Local dev only: one-click demo logins (accounts come from DatabaseSeeder). --}}
+        @if (app()->environment('local'))
+            <div class="app-card bg-surface-container-lowest rounded-xl p-4 mt-4">
+                <div class="text-xs uppercase tracking-wider text-on-surface-variant mb-2">Demo logins (local only)</div>
+                <div class="grid grid-cols-2 gap-2">
+                    @foreach (['Super Admin' => 'admin', 'Manager' => 'manager', 'Accountant' => 'accountant', 'Cashier' => 'cashier', 'Loan Officer' => 'loan', 'Staff' => 'staff', 'Auditor' => 'auditor'] as $label => $user)
+                        <form method="POST" action="{{ route('login.attempt') }}">
+                            @csrf
+                            <input type="hidden" name="organization" value="{{ \App\Models\Organization::value('code') }}">
+                            <input type="hidden" name="email" value="{{ $user }}@coopsys.test">
+                            <input type="hidden" name="password" value="password">
+                            <button type="submit" class="btn w-full justify-center">{{ $label }}</button>
+                        </form>
+                    @endforeach
+                </div>
+            </div>
+        @endif
     </div>
 
 </body>

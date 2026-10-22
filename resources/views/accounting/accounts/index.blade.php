@@ -13,9 +13,13 @@
 
 <x-card>
     <form method="GET" class="p-space-md flex flex-wrap items-end gap-3 no-print">
+        <div>
+            <label class="field-label" for="q">Search</label>
+            <input type="search" id="q" name="q" value="{{ $search }}" placeholder="Account number or name…" class="input">
+        </div>
         <x-select label="Type" name="type" :value="$type" :options="\App\Models\Account::TYPES" placeholder="All types" />
         <button class="btn btn-secondary">Filter</button>
-        @if ($type) <a href="{{ route('accounting.accounts.index') }}" class="btn btn-secondary">Clear</a> @endif
+        @if ($type || $search) <a href="{{ route('accounting.accounts.index') }}" class="btn btn-secondary">Clear</a> @endif
     </form>
 
     <div class="overflow-x-auto">
@@ -25,8 +29,8 @@
                 @foreach ($accounts as $a)
                     <tr class="{{ $a->is_active ? '' : 'opacity-50' }}">
                         <td class="font-mono font-semibold">{{ $a->code }}</td>
-                        <td class="font-medium">{{ $a->name }}@if ($a->is_system) <span class="ml-1 px-1.5 py-0.5 rounded text-[10px] bg-surface-container text-outline" title="Used for automatic postings">SYSTEM</span>@endif
-                            @if ($a->description)<div class="text-[11px] text-outline">{{ $a->description }}</div>@endif</td>
+                        <td class="font-medium">{{ $a->name }}@if ($a->is_system) <span class="ml-1 px-1.5 py-0.5 rounded text-xs bg-surface-container text-outline" title="Used for automatic postings">SYSTEM</span>@endif
+                            @if ($a->description)<div class="text-xs text-outline">{{ $a->description }}</div>@endif</td>
                         <td>{{ \App\Models\Account::TYPES[$a->type] }}</td>
                         <td class="text-on-surface-variant">{{ $a->groupName() }}</td>
                         <td>{{ ucfirst($a->normalSide()) }}</td>
@@ -53,6 +57,6 @@
             </tbody>
         </table>
     </div>
-    <p class="p-space-md text-[11px] text-outline">SYSTEM accounts are posted to automatically (cash, savings, share capital, loans, income). They can be renamed but not deleted or deactivated. An account with entries cannot be deleted, only deactivated.</p>
+    <p class="p-space-md text-xs text-outline">SYSTEM accounts are posted to automatically (cash, savings, share capital, loans, income). They can be renamed but not deleted or deactivated. An account with entries cannot be deleted, only deactivated.</p>
 </x-card>
 @endsection

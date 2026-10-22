@@ -48,7 +48,7 @@
             </tbody>
         </table>
     </div>
-    <p class="p-space-md text-[11px] text-outline">The books are on a cash basis: interest and fees are income when collected or deducted at release, not when they fall due.</p>
+    <p class="p-space-md text-xs text-outline">The books are on a cash basis: interest and fees are income when collected or deducted at release, not when they fall due.</p>
 </x-card>
 
 <x-card title="Reports" subtitle="Statements and management reports">

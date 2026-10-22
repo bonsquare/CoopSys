@@ -67,7 +67,7 @@
             <div class="mt-space-sm">
                 <div class="flex items-baseline gap-space-sm">
                     <span class="font-headline-lg text-headline-lg text-on-surface font-bold">{{ number_format($stats['members']['total']) }}</span>
-                    <span class="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded text-[11px] font-semibold bg-secondary-fixed text-on-secondary-fixed">
+                    <span class="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded text-xs font-semibold bg-secondary-fixed text-on-secondary-fixed">
                         <span class="material-symbols-outlined text-[12px]">trending_up</span> +{{ $stats['members']['new'] }} this mo
                     </span>
                 </div>
@@ -134,7 +134,7 @@
                     <span class="material-symbols-outlined text-primary text-[20px]">assignment_turned_in</span>
                     <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">Total Loan Releases (YTD)</span>
                 </div>
-                <span class="px-2 py-0.5 rounded text-[11px] font-semibold bg-surface-container text-primary">Cumulative</span>
+                <span class="px-2 py-0.5 rounded text-xs font-semibold bg-surface-container text-primary">Cumulative</span>
             </div>
             <div class="mt-space-md flex items-end justify-between">
                 <div>
@@ -151,7 +151,7 @@
                     <span class="material-symbols-outlined text-secondary text-[20px]">verified</span>
                     <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">Loan Collections ({{ $periodLabel }})</span>
                 </div>
-                <span class="px-2 py-0.5 rounded text-[11px] font-semibold {{ $stats['efficiency'] >= $stats['target'] ? 'bg-secondary-fixed text-on-secondary-fixed' : 'bg-error-container text-on-error-container' }} font-mono">{{ $stats['efficiency'] }}% Efficiency</span>
+                <span class="px-2 py-0.5 rounded text-xs font-semibold {{ $stats['efficiency'] >= $stats['target'] ? 'bg-secondary-fixed text-on-secondary-fixed' : 'bg-error-container text-on-error-container' }} font-mono">{{ $stats['efficiency'] }}% Efficiency</span>
             </div>
             <div class="mt-space-md flex items-end justify-between">
                 <div>
@@ -168,7 +168,7 @@
                     <span class="material-symbols-outlined text-error text-[20px]">warning</span>
                     <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">Past Due Loans (PAR)</span>
                 </div>
-                <span class="px-2 py-0.5 rounded text-[11px] font-semibold {{ $stats['par_ok'] ? 'bg-secondary-fixed text-on-secondary-fixed' : 'bg-error-container text-on-error-container' }}">
+                <span class="px-2 py-0.5 rounded text-xs font-semibold {{ $stats['par_ok'] ? 'bg-secondary-fixed text-on-secondary-fixed' : 'bg-error-container text-on-error-container' }}">
                     {{ $stats['par_ok'] ? 'Healthy' : 'Attention' }} (&lt; {{ $stats['par_limit'] }}%)
                 </span>
             </div>
@@ -198,11 +198,11 @@
             <div class="flex flex-wrap items-center gap-space-sm no-print">
                 <div class="relative min-w-[240px]">
                     <span class="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-[18px] text-outline">search</span>
-                    <input type="text" id="tableSearchInput" placeholder="Search reference, member, or ID..."
+                    <input aria-label="Search transactions" type="text" id="tableSearchInput" placeholder="Search reference, member, or ID..."
                            class="w-full pl-8 pr-3 py-1.5 bg-surface-container-low text-on-surface font-body-sm text-body-sm rounded-lg focus:outline-none focus:bg-surface-container-lowest shadow-sm placeholder:text-outline">
                 </div>
                 <div class="relative">
-                    <select id="typeFilterSelect" class="bg-surface-container-low text-on-surface font-label-md text-label-md py-1.5 pl-3 pr-8 rounded-lg focus:outline-none cursor-pointer shadow-sm appearance-none">
+                    <select aria-label="Filter by transaction type" id="typeFilterSelect" class="bg-surface-container-low text-on-surface font-label-md text-label-md py-1.5 pl-3 pr-8 rounded-lg focus:outline-none cursor-pointer shadow-sm appearance-none">
                         <option value="All">All Categories</option>
                         @foreach (\App\Models\Transaction::TYPES as $t)
                             <option value="{{ $t[0] }}">{{ $t[0] }}</option>
@@ -228,15 +228,15 @@
                             <td class="text-on-surface-variant">{{ $t->posted_at->format('M d, Y h:i A') }}</td>
                             <td>
                                 <div class="font-medium text-on-surface">{{ $t->member?->full_name ?? '—' }}</div>
-                                <div class="text-[11px] text-outline">{{ $t->member?->member_no }}</div>
+                                <div class="text-xs text-outline">{{ $t->member?->member_no }}</div>
                             </td>
-                            <td><span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold {{ $t->badge() }}">{{ $t->label() }}</span></td>
+                            <td><span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold {{ $t->badge() }}">{{ $t->label() }}</span></td>
                             <td class="num font-bold {{ $t->direction === 'in' ? 'text-secondary' : 'text-on-surface' }} {{ $t->status === 'voided' ? 'line-through opacity-60' : '' }}">
                                 {{ $t->direction === 'in' ? '+' : '-' }}@peso($t->amount)
                             </td>
                             <td>
                                 <div class="text-on-surface">{{ $t->user?->name ?? 'System' }}</div>
-                                <div class="text-[11px] text-outline">{{ $t->user?->roleLabel() }}</div>
+                                <div class="text-xs text-outline">{{ $t->user?->roleLabel() }}</div>
                             </td>
                             <td>
                                 <span class="inline-flex items-center gap-1 font-label-sm text-label-sm {{ $t->status === 'completed' ? 'text-secondary' : 'text-error' }} font-medium">

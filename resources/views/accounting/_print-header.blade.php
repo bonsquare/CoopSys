@@ -4,5 +4,5 @@
     <div class="text-sm">{{ \App\Models\Setting::get('branch_name') }}</div>
     <div class="font-semibold mt-1">{{ $title }}</div>
     @isset($subtitle)<div class="text-sm">{{ $subtitle }}</div>@endisset
-    <div class="text-[11px] text-outline">Printed {{ now()->format('M d, Y h:i A') }} by {{ auth()->user()->name }}</div>
+    <div class="text-xs text-outline">Printed {{ now()->format('M d, Y h:i A') }} by {{ auth()->user()->name }}</div>
 </div>

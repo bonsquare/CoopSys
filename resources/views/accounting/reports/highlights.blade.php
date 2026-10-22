@@ -65,5 +65,5 @@
         </div>
     </div>
 @endforeach
-<p class="text-[11px] text-outline">Earnings figures are for {{ $year }} so far. On the cash basis, income is recorded when it is collected.</p>
+<p class="text-xs text-outline">Earnings figures are for {{ $year }} so far. On the cash basis, income is recorded when it is collected.</p>
 @endsection

@@ -6,12 +6,12 @@
     <div class="grid grid-cols-2 md:grid-cols-4 gap-3 items-start">
         <div class="col-span-2 md:col-span-1">
             <label class="field-label">Deduction name</label>
-            <input name="deductions[{{ $i }}][name]" value="{{ $get('name') }}" list="deduction-names" required class="input" placeholder="e.g. Service Fee">
+            <input aria-label="Deduction name" name="deductions[{{ $i }}][name]" value="{{ $get('name') }}" list="deduction-names" required class="input" placeholder="e.g. Service Fee">
             @error("deductions.$i.name") <p class="field-error">{{ $message }}</p> @enderror
         </div>
         <div>
             <label class="field-label">Type</label>
-            <select name="deductions[{{ $i }}][type]" class="input" data-deduction-type>
+            <select aria-label="Deduction type" name="deductions[{{ $i }}][type]" class="input" data-deduction-type>
                 @foreach (config('loan_products.deduction_types') as $key => $text)
                     <option value="{{ $key }}" @selected($get('type', 'fixed') === $key)>{{ $text }}</option>
                 @endforeach
@@ -19,12 +19,12 @@
         </div>
         <div>
             <label class="field-label">Value</label>
-            <input type="number" step="0.01" min="0" name="deductions[{{ $i }}][value]" value="{{ $get('value', 0) }}" class="input" data-deduction-value>
+            <input aria-label="Deduction value" type="number" step="0.01" min="0" name="deductions[{{ $i }}][value]" value="{{ $get('value', 0) }}" class="input" data-deduction-value>
             @error("deductions.$i.value") <p class="field-error">{{ $message }}</p> @enderror
         </div>
         <div>
             <label class="field-label">Basis</label>
-            <select name="deductions[{{ $i }}][basis]" class="input">
+            <select aria-label="Deduction basis" name="deductions[{{ $i }}][basis]" class="input">
                 @foreach (config('loan_products.deduction_bases') as $key => $text)
                     <option value="{{ $key }}" @selected($get('basis', 'loan_amount') === $key)>{{ $text }}</option>
                 @endforeach
@@ -32,7 +32,7 @@
         </div>
         <div class="col-span-2">
             <label class="field-label">Timing</label>
-            <select name="deductions[{{ $i }}][timing]" class="input">
+            <select aria-label="Deduction timing" name="deductions[{{ $i }}][timing]" class="input">
                 @foreach (config('loan_products.deduction_timings') as $key => $text)
                     <option value="{{ $key }}" @selected($get('timing', 'upon_release') === $key)>{{ $text }}</option>
                 @endforeach
@@ -40,19 +40,19 @@
         </div>
         <div>
             <label class="field-label">Required</label>
-            <select name="deductions[{{ $i }}][is_required]" class="input">
+            <select aria-label="Required" name="deductions[{{ $i }}][is_required]" class="input">
                 @foreach ($yesNo as $key => $text) <option value="{{ $key }}" @selected((string) (int) $get('is_required', true) === (string) $key)>{{ $text }}</option> @endforeach
             </select>
         </div>
         <div>
             <label class="field-label">Editable in application</label>
-            <select name="deductions[{{ $i }}][is_editable]" class="input">
+            <select aria-label="Editable" name="deductions[{{ $i }}][is_editable]" class="input">
                 @foreach ($yesNo as $key => $text) <option value="{{ $key }}" @selected((string) (int) $get('is_editable', false) === (string) $key)>{{ $text }}</option> @endforeach
             </select>
         </div>
         <div>
             <label class="field-label">Status</label>
-            <select name="deductions[{{ $i }}][is_active]" class="input">
+            <select aria-label="Active" name="deductions[{{ $i }}][is_active]" class="input">
                 <option value="1" @selected((string) (int) $get('is_active', true) === '1')>Active</option>
                 <option value="0" @selected((string) (int) $get('is_active', true) === '0')>Inactive</option>
             </select>

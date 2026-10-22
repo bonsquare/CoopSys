@@ -25,9 +25,9 @@
 @endif
 
 <div class="grid grid-cols-2 lg:grid-cols-4 gap-gutter">
-    <x-card class="p-space-md"><div class="field-label">Interest</div><div class="font-headline-sm text-headline-sm font-bold">{{ $product->rateText() }}</div><div class="text-[11px] text-outline">{{ $label('interest_types', $product->interest_type) }}</div></x-card>
+    <x-card class="p-space-md"><div class="field-label">Interest</div><div class="font-headline-sm text-headline-sm font-bold">{{ $product->rateText() }}</div><div class="text-xs text-outline">{{ $label('interest_types', $product->interest_type) }}</div></x-card>
     <x-card class="p-space-md col-span-2 lg:col-span-1"><div class="field-label">Amount</div><div class="font-headline-sm text-headline-sm font-bold">@peso($product->min_amount) – @peso($product->max_amount)</div></x-card>
-    <x-card class="p-space-md"><div class="field-label">Term</div><div class="font-headline-sm text-headline-sm font-bold">{{ $product->termRange() }}</div><div class="text-[11px] text-outline">Paid {{ strtolower($label('frequencies', $product->payment_frequency)) }}</div></x-card>
+    <x-card class="p-space-md"><div class="field-label">Term</div><div class="font-headline-sm text-headline-sm font-bold">{{ $product->termRange() }}</div><div class="text-xs text-outline">Paid {{ strtolower($label('frequencies', $product->payment_frequency)) }}</div></x-card>
     <x-card class="p-space-md"><div class="field-label">Loans using this product</div><div class="font-headline-sm text-headline-sm font-bold">{{ $product->loans_count }}</div></x-card>
 </div>
 
@@ -133,7 +133,7 @@
                     <tr><td class="text-on-surface-variant pl-6">Principal amount</td><td class="num">@peso($calc['approved_amount'])</td></tr>
                     @foreach ($calc['deductions'] as $d)
                         <tr>
-                            <td class="text-on-surface-variant pl-6">{{ $d['name'] }} <span class="text-[11px]">({{ strtolower($label('deduction_timings', $d['timing'])) }})</span></td>
+                            <td class="text-on-surface-variant pl-6">{{ $d['name'] }} <span class="text-xs">({{ strtolower($label('deduction_timings', $d['timing'])) }})</span></td>
                             <td class="num">@peso($d['amount'])</td>
                         </tr>
                     @endforeach
@@ -143,13 +143,13 @@
                     <tr><td>Add: Fees Added to Payable</td><td class="num">@peso($calc['fees_payable'])</td></tr>
                     <tr class="bg-surface-container-low"><td class="font-bold">Total Amount Payable</td><td class="num font-bold">@peso($calc['total_payable'])</td></tr>
                     <tr>
-                        <td>Payment Amount Per Schedule<div class="text-[11px] text-outline">{{ $calc['payments'] }} {{ strtolower($label('frequencies', $calc['frequency'])) }} payment(s)</div></td>
+                        <td>Payment Amount Per Schedule<div class="text-xs text-outline">{{ $calc['payments'] }} {{ strtolower($label('frequencies', $calc['frequency'])) }} payment(s)</div></td>
                         <td class="num font-bold text-primary">
                             @peso($calc['payment_amount'])
-                            @if ($calc['payments_vary'])<div class="text-[11px] text-outline font-normal">First payment @peso($calc['first_payment'])</div>@endif
+                            @if ($calc['payments_vary'])<div class="text-xs text-outline font-normal">First payment @peso($calc['first_payment'])</div>@endif
                         </td>
                     </tr>
-                    <tr><td>Ending Loan Balance<div class="text-[11px] text-outline">after the last payment</div></td><td class="num">@peso(end($calc['rows'])['balance'])</td></tr>
+                    <tr><td>Ending Loan Balance<div class="text-xs text-outline">after the last payment</div></td><td class="num">@peso(end($calc['rows'])['balance'])</td></tr>
                 </tbody>
             </table>
             @if ($calc['custom_schedule'])

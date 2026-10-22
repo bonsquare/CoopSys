@@ -52,7 +52,7 @@
             <dt class="font-bold">Total Amount Payable</dt><dd class="text-right font-bold" data-key="total_payable">—</dd>
             <dt>Payment Per Schedule</dt><dd class="text-right font-bold text-primary" data-key="payment_amount">—</dd>
         </dl>
-        <p class="px-space-md pb-space-md text-[11px] text-outline" id="estimate-note"></p>
+        <p class="px-space-md pb-space-md text-xs text-outline" id="estimate-note"></p>
     </x-card>
 </div>
 @endif

@@ -21,7 +21,7 @@
                     @forelse ($s['rows'] as $r)
                         <tr>
                             <td class="font-mono text-[12px]">{{ $r['ref'] }}</td>
-                            <td>{{ $r['name'] }}@if ($r['note'])<div class="text-[11px] text-outline">{{ $r['note'] }}</div>@endif</td>
+                            <td>{{ $r['name'] }}@if ($r['note'])<div class="text-xs text-outline">{{ $r['note'] }}</div>@endif</td>
                             <td>{{ $r['extra'] }}</td>
                             <td class="num">@acct($r['amount'])</td>
                         </tr>

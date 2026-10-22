@@ -3,7 +3,7 @@
 @section('title', $member->full_name)
 
 @section('content')
-<x-page-header :title="$member->full_name" :subtitle="$member->member_no . ' · ' . ucfirst($member->status) . ' · joined ' . $member->date_joined->format('M d, Y')">
+<x-page-header :title="$member->full_name" :subtitle="$member->member_no . ' · Savings ' . $member->savings_account_no . ' · ' . ucfirst($member->status) . ' · joined ' . $member->date_joined->format('M d, Y')">
     <a href="{{ route('members.index') }}" class="btn btn-secondary">Back</a>
     <a href="{{ route('members.ledger', $member) }}" class="btn btn-secondary">Member ledger</a>
     <a href="{{ route('savings.statement', $member) }}" class="btn btn-secondary">Savings statement</a>
@@ -56,7 +56,7 @@
                             <td class="font-mono text-[12px] font-semibold text-primary">{{ $loan->loan_no }}</td>
                             <td class="num">@peso($loan->principal)</td>
                             <td class="num">@peso($loan->balance)</td>
-                            <td><span class="inline-flex px-2 py-0.5 rounded text-[11px] font-semibold {{ \App\Models\Loan::statusColor($loan->status) }}">{{ ucfirst($loan->status) }}</span></td>
+                            <td><span class="inline-flex px-2 py-0.5 rounded text-xs font-semibold {{ \App\Models\Loan::statusColor($loan->status) }}">{{ ucfirst($loan->status) }}</span></td>
                             <td class="no-print"><a href="{{ route('loans.show', $loan) }}" class="btn btn-secondary btn-sm">View</a></td>
                         </tr>
                     @empty
@@ -77,7 +77,7 @@
                     <tr>
                         <td class="font-mono text-[12px] font-semibold text-primary"><a href="{{ route('transactions.show', $t) }}">{{ $t->reference_no }}</a></td>
                         <td>{{ $t->posted_at->format('M d, Y') }}</td>
-                        <td><span class="inline-flex px-2 py-0.5 rounded text-[11px] font-semibold {{ $t->badge() }}">{{ $t->label() }}</span></td>
+                        <td><span class="inline-flex px-2 py-0.5 rounded text-xs font-semibold {{ $t->badge() }}">{{ $t->label() }}</span></td>
                         <td class="num font-bold {{ $t->direction === 'in' ? 'text-secondary' : '' }}">{{ $t->direction === 'in' ? '+' : '-' }}@peso($t->amount)</td>
                         <td>{{ ucfirst($t->status) }}</td>
                     </tr>

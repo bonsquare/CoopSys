@@ -28,7 +28,7 @@
                     <tr>
                         <td class="whitespace-nowrap">{{ $l->entry->entry_date->format('M d, Y') }}</td>
                         <td class="font-mono text-[12px] font-semibold text-primary"><a href="{{ route('accounting.journal.show', $l->entry) }}">{{ $l->entry->number() }}</a></td>
-                        <td>{{ $l->entry->description }}@if ($l->memo)<div class="text-[11px] text-outline">{{ $l->memo }}</div>@endif</td>
+                        <td>{{ $l->entry->description }}@if ($l->memo)<div class="text-xs text-outline">{{ $l->memo }}</div>@endif</td>
                         <td class="num">{{ $l->debit > 0 ? '₱' . number_format($l->debit, 2) : '' }}</td>
                         <td class="num">{{ $l->credit > 0 ? '₱' . number_format($l->credit, 2) : '' }}</td>
                         <td class="num">@acct($r['balance'])</td>

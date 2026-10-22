@@ -34,12 +34,12 @@
                     <tr>
                         <td class="font-mono text-[12px] font-semibold text-primary"><a href="{{ route('collections.show', $c) }}">{{ $c->receipt_no }}</a></td>
                         <td>{{ $c->collection_date->format('M d, Y') }}</td>
-                        <td>{{ $c->member->full_name }}<div class="text-[11px] text-outline">{{ $c->member->member_no }}</div></td>
+                        <td>{{ $c->member->full_name }}<div class="text-xs text-outline">{{ $c->member->member_no }}</div></td>
                         <td>{{ $c->typeLabel() }}</td>
                         <td>{{ config('coop.payment_methods.' . $c->payment_method, $c->payment_method) }}</td>
                         <td class="num font-bold {{ $c->direction === 'in' ? 'text-secondary' : '' }} {{ $c->status === 'cancelled' ? 'line-through opacity-60' : '' }}">{{ $c->direction === 'in' ? '+' : '-' }}@peso($c->total_amount)</td>
                         <td>{{ $c->collector?->name }}</td>
-                        <td><span class="inline-flex px-2 py-0.5 rounded text-[11px] font-semibold {{ $c->statusColor() }}">{{ $c->statusLabel() }}</span></td>
+                        <td><span class="inline-flex px-2 py-0.5 rounded text-xs font-semibold {{ $c->statusColor() }}">{{ $c->statusLabel() }}</span></td>
                         <td class="no-print whitespace-nowrap">
                             <a href="{{ route('collections.show', $c) }}" class="btn btn-secondary btn-sm">Open</a>
                             @if (! $c->isDraft()) <a href="{{ route('collections.receipt', $c) }}" class="btn btn-secondary btn-sm">Receipt</a> @endif

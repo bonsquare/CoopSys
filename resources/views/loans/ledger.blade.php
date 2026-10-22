@@ -26,7 +26,7 @@
     <x-card class="p-space-md {{ $a && $a['penalty']['due'] > 0 ? 'bg-error-container' : '' }}">
         <div class="field-label">Penalty due</div>
         <div class="font-headline-md text-headline-md font-bold {{ $a && $a['penalty']['due'] > 0 ? 'text-error' : '' }}">@peso($a['penalty']['due'] ?? 0)</div>
-        @if ($a && $a['penalty']['missed'])<div class="text-[11px] text-error">{{ $a['penalty']['missed'] }} missed installment(s)</div>@endif
+        @if ($a && $a['penalty']['missed'])<div class="text-xs text-error">{{ $a['penalty']['missed'] }} missed installment(s)</div>@endif
     </x-card>
 </div>
 
@@ -82,6 +82,6 @@
             </tbody>
         </table>
     </div>
-    <p class="p-space-md text-[11px] text-outline">For a penalty line, "balance after" is the penalty still due. For the other lines it is the loan balance.</p>
+    <p class="p-space-md text-xs text-outline">For a penalty line, "balance after" is the penalty still due. For the other lines it is the loan balance.</p>
 </x-card>
 @endsection

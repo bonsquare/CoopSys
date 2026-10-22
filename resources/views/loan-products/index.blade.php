@@ -41,7 +41,7 @@
                         <td class="num">{{ $p->rateText() }}</td>
                         <td class="whitespace-nowrap">{{ $p->termRange() }}</td>
                         <td class="num">{{ $p->deductions_count }}</td>
-                        <td><span class="inline-flex px-2 py-0.5 rounded text-[11px] font-semibold {{ $p->is_active ? 'bg-secondary-fixed text-on-secondary-fixed' : 'bg-surface-container text-outline' }}">{{ $p->is_active ? 'Active' : 'Inactive' }}</span></td>
+                        <td><span class="inline-flex px-2 py-0.5 rounded text-xs font-semibold {{ $p->is_active ? 'bg-secondary-fixed text-on-secondary-fixed' : 'bg-surface-container text-outline' }}">{{ $p->is_active ? 'Active' : 'Inactive' }}</span></td>
                         <td class="no-print whitespace-nowrap">
                             <a href="{{ route('loan-products.show', $p) }}" class="btn btn-secondary btn-sm">View</a>
                             @allowed('loan_products', 'manage')

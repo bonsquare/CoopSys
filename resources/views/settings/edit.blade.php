@@ -35,8 +35,8 @@
             @php $customOrder = array_pad(array_filter(explode(',', (string) $values['allocation_custom'])), 6, ''); @endphp
             @foreach (range(0, 5) as $i)
                 <div>
-                    <label class="field-label">{{ $i + 1 }}.</label>
-                    <select name="allocation_custom[]" class="input">
+                    <label class="field-label" for="allocation_custom_{{ $i }}">{{ $i + 1 }}.</label>
+                    <select id="allocation_custom_{{ $i }}" name="allocation_custom[]" class="input">
                         @foreach (config('collections.priority_items') as $key => $text)
                             <option value="{{ $key }}" @selected(($customOrder[$i] ?? array_keys(config('collections.priority_items'))[$i]) === $key)>{{ $text }}</option>
                         @endforeach

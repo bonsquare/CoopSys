@@ -8,7 +8,6 @@ use App\Http\Controllers\CashController;
 use App\Http\Controllers\ClosingController;
 use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JournalController;
 use App\Http\Controllers\LoanController;
 use App\Http\Controllers\LoanProductController;
@@ -21,10 +20,6 @@ use App\Http\Controllers\ShareCapitalController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
-
-// The original starter page (business type form) now lives at /starter
-Route::get('/starter', [HomeController::class, 'index'])->name('home');
-Route::post('/generate', [HomeController::class, 'generate'])->name('generate');
 
 // Home: send people to the dashboard (or the login page)
 Route::get('/', fn () => redirect()->route('dashboard'));

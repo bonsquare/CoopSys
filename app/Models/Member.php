@@ -12,6 +12,19 @@ class Member extends Model
 
     protected $guarded = [];
 
+    protected static function booted(): void
+    {
+        static::creating(fn (self $m) => $m->savings_account_no ??= static::nextSavingsAccountNo());
+    }
+
+    /** Next savings account number for the organization, e.g. SA-000007 */
+    public static function nextSavingsAccountNo(): string
+    {
+        $last = (int) substr((string) static::max('savings_account_no'), 3);
+
+        return sprintf('SA-%06d', $last + 1);
+    }
+
     protected function casts(): array
     {
         return ['birthdate' => 'date', 'date_joined' => 'date', 'subscribed_shares' => 'decimal:2'];
@@ -56,7 +69,7 @@ class Member extends Model
     public static function options(): array
     {
         return static::where('status', 'active')->orderBy('last_name')->orderBy('first_name')->get()
-            ->mapWithKeys(fn ($m) => [$m->id => "{$m->member_no} — {$m->last_name}, {$m->first_name}"])
+            ->mapWithKeys(fn ($m) => [$m->id => "{$m->member_no} · {$m->savings_account_no} — {$m->last_name}, {$m->first_name}"])
             ->all();
     }
 

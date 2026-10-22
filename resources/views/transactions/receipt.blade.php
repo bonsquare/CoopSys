@@ -42,7 +42,7 @@
         <dt class="text-on-surface-variant">Date &amp; time</dt><dd class="text-right">{{ $t->posted_at->format('M d, Y h:i A') }}</dd>
         @if ($t->member)
             <dt class="text-on-surface-variant">Member</dt><dd class="text-right">{{ $t->member->full_name }}</dd>
-            <dt class="text-on-surface-variant">Account no.</dt><dd class="text-right font-mono">{{ $t->member->member_no }}</dd>
+            <dt class="text-on-surface-variant">Account no.</dt><dd class="text-right font-mono">{{ $t->member->savings_account_no }}</dd>
         @endif
         @if ($t->loan)
             <dt class="text-on-surface-variant">Loan</dt><dd class="text-right font-mono">{{ $t->loan->loan_no }}</dd>
@@ -57,7 +57,7 @@
     <div class="py-4 text-center border-b border-dashed border-outline-variant">
         <div class="field-label">Amount</div>
         <div class="text-3xl font-black {{ $t->direction === 'in' ? 'text-secondary' : 'text-on-surface' }}">@peso($t->amount)</div>
-        <div class="text-[11px] text-outline">{{ $t->direction === 'in' ? 'Received' : 'Paid out' }}</div>
+        <div class="text-xs text-outline">{{ $t->direction === 'in' ? 'Received' : 'Paid out' }}</div>
     </div>
 
     @if ($t->balance_after !== null)
@@ -66,11 +66,11 @@
         </div>
     @endif
 
-    <div class="grid grid-cols-2 gap-6 pt-8 text-center text-[11px] text-on-surface-variant">
+    <div class="grid grid-cols-2 gap-6 pt-8 text-center text-xs text-on-surface-variant">
         <div><div class="border-t border-on-surface pt-1">Teller: {{ $t->user?->name ?? 'System' }}</div></div>
         <div><div class="border-t border-on-surface pt-1">Member signature</div></div>
     </div>
 
-    <p class="text-center text-[10px] text-outline mt-4">Keep this slip as proof of your transaction.</p>
+    <p class="text-center text-xs text-outline mt-4">Keep this slip as proof of your transaction.</p>
 </div>
 @endsection

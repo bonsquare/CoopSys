@@ -3,7 +3,7 @@
 @section('title', 'Statement ' . $member->member_no)
 
 @section('content')
-<x-page-header title="Statement of Account" :subtitle="$member->full_name . ' · ' . $member->member_no">
+<x-page-header title="Statement of Account" :subtitle="$member->full_name . ' · ' . $member->savings_account_no . ' · ' . $member->member_no">
     <a href="{{ route('savings.index') }}" class="btn btn-secondary">Back to teller</a>
     <button type="button" onclick="window.print()" class="btn btn-primary"><span class="material-symbols-outlined text-[18px]">print</span> Print statement</button>
 </x-page-header>

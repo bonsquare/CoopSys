@@ -17,7 +17,7 @@
             <span class="material-symbols-outlined text-primary text-[36px]">diversity_3</span>
             <div>
                 <div class="text-xl font-bold text-primary leading-tight">CoopSys</div>
-                <div class="text-[11px] uppercase tracking-wider text-on-surface-variant">Management Portal</div>
+                <div class="text-xs uppercase tracking-wider text-on-surface-variant">Management Portal</div>
             </div>
         </div>
 

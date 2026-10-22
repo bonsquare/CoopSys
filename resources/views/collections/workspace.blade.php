@@ -45,6 +45,7 @@
 @section('title', 'Collection')
 
 @section('content')
+<h1 class="sr-only">Collection</h1>
 <form method="POST" action="{{ route('collections.store') }}" id="collection-form" class="flex flex-col gap-3" autocomplete="off">
     @csrf
     <input type="hidden" name="collection_id" value="{{ $c?->id }}">
@@ -78,7 +79,7 @@
         <div class="tl-field">
             <label for="collection_date">Transaction date</label>
             <input type="date" id="collection_date" name="collection_date" value="{{ $initial['date'] }}" max="{{ now()->toDateString() }}" class="input" required>
-            <div class="text-[11px] text-outline" id="clock">{{ now()->format('h:i A') }}</div>
+            <div class="text-xs text-outline" id="clock">{{ now()->format('h:i A') }}</div>
         </div>
         <div class="tl-field">
             <label>Reference no.</label>

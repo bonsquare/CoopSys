@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
 </head>
 <body class="bg-surface font-body-md text-on-surface antialiased">
+<a href="#main" class="skip-link">Skip to main content</a>
 
 @php
     $user = auth()->user();
@@ -61,7 +62,7 @@
             <span class="font-label-sm text-label-sm text-outline uppercase tracking-wider">Operational Modules</span>
         </div>
 
-        <nav class="flex flex-col gap-space-xs px-space-xs pb-space-lg">
+        <nav aria-label="Main menu" class="flex flex-col gap-space-xs px-space-xs pb-space-lg">
             @foreach ($menu as $item)
                 @php [$label, $icon, $routeName, $module] = $item; $isChild = $item[4] ?? false; @endphp
                 @if ($user->canAccess($module))
@@ -70,7 +71,7 @@
                     <a href="{{ route($target) }}"
                        @if ($active) aria-current="page" @endif
                        class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg transition-colors {{ $isChild ? 'ml-6 text-[13px]' : '' }} {{ $active ? 'bg-surface-container-high text-primary font-semibold' : 'text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface' }}">
-                        <span class="material-symbols-outlined {{ $isChild ? 'text-[18px]' : 'text-[20px]' }}">{{ $icon }}</span>
+                        <span aria-hidden="true" class="material-symbols-outlined {{ $isChild ? 'text-[18px]' : 'text-[20px]' }}">{{ $icon }}</span>
                         <span class="font-body-md text-body-md">{{ $label }}</span>
                     </a>
                 @endif
@@ -98,7 +99,7 @@
             </button>
             <div class="hidden sm:flex items-center gap-space-xs font-label-md text-label-md text-on-surface-variant">
                 <span class="text-outline truncate">{{ $coopName }}</span>
-                @if ($org)<span class="font-mono text-[11px] px-1.5 py-0.5 rounded bg-surface-container-high text-primary font-semibold" title="Organization ID">{{ $org->code }}</span>@endif
+                @if ($org)<span class="font-mono text-xs px-1.5 py-0.5 rounded bg-surface-container-high text-primary font-semibold" title="Organization ID">{{ $org->code }}</span>@endif
             </div>
             <div class="h-4 w-px bg-outline-variant hidden lg:block"></div>
             <div class="hidden lg:flex items-center gap-space-xs bg-surface-container-lowest px-space-sm py-space-xs rounded-lg shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
@@ -142,7 +143,7 @@
     </header>
 
     <!-- Page content goes here -->
-    <main class="relative pt-16 w-full bg-surface min-h-screen">
+    <main id="main" tabindex="-1" class="relative pt-16 w-full bg-surface min-h-screen">
         <div class="px-margin-lg py-gutter-lg flex flex-col gap-space-xl">
 
             @if ($org && $org->onTrial())

@@ -15,16 +15,18 @@ class AccountController extends Controller
     public function index(Request $request, AccountingService $accounting)
     {
         $type = $request->query('type');
+        $search = trim((string) $request->query('q'));
         $totals = $accounting->totals(null, now()->toDateString());
 
         $accounts = Account::withCount('lines')
+            ->when($search !== '', fn ($q) => $q->where(fn ($w) => $w->where('code', 'like', "%$search%")->orWhere('name', 'like', "%$search%")))
             ->when(array_key_exists($type ?? '', Account::TYPES), fn ($q) => $q->where('type', $type))
             ->orderBy('code')->get()
             ->each(function ($a) use ($totals) {
                 $a->balance = $a->balanceOf($totals[$a->id]['debit'] ?? 0, $totals[$a->id]['credit'] ?? 0);
             });
 
-        return view('accounting.accounts.index', ['accounts' => $accounts, 'type' => $type]);
+        return view('accounting.accounts.index', ['accounts' => $accounts, 'type' => $type, 'search' => $search]);
     }
 
     public function create()
@@ -34,7 +36,9 @@ class AccountController extends Controller
 
     public function store(Request $request)
     {
-        $account = Account::create($request->validate($this->rules()) + ['is_active' => true, 'is_system' => false]);
+        $data = $request->validate($this->rules());
+        $data['code'] = $data['code'] ?? Account::nextCode($data['type']);   // blank code = system-generated number
+        $account = Account::create($data + ['is_active' => true, 'is_system' => false]);
         AuditLog::record('account.created', $account->label());
 
         return redirect()->route('accounting.accounts.index')->with('status', "Account {$account->label()} added.");
@@ -96,7 +100,7 @@ class AccountController extends Controller
     private function rules(?Account $account = null): array
     {
         return [
-            'code' => ['required', 'regex:/^[A-Za-z0-9\-\.]{2,12}$/', Tenant::unique('accounts', 'code', $account?->id)],
+            'code' => [$account ? 'required' : 'nullable', 'regex:/^[A-Za-z0-9\-\.]{2,12}$/', Tenant::unique('accounts', 'code', $account?->id)],
             'name' => 'required|string|max:100',
             'type' => ['required', Rule::in(array_keys(Account::TYPES))],
             'description' => 'nullable|string|max:255',

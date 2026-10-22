@@ -40,7 +40,7 @@
                         <td>{{ $loan->product?->name ?? '—' }}</td>
                         <td class="num">@peso($loan->principal)</td>
                         <td class="num font-semibold">@peso($loan->balance)</td>
-                        <td><span class="inline-flex px-2 py-0.5 rounded text-[11px] font-semibold {{ \App\Models\Loan::statusColor($loan->status) }}">{{ ucfirst($loan->status) }}</span></td>
+                        <td><span class="inline-flex px-2 py-0.5 rounded text-xs font-semibold {{ \App\Models\Loan::statusColor($loan->status) }}">{{ ucfirst($loan->status) }}</span></td>
                         <td class="no-print"><a href="{{ route('loans.ledger', $loan) }}" class="btn btn-secondary btn-sm">Loan ledger</a></td>
                     </tr>
                 @empty

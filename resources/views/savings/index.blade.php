@@ -41,8 +41,8 @@
                 {{-- Member lookup --}}
                 <div class="md:col-span-2">
                     <label class="field-label" for="member-search">Member</label>
-                    <input type="search" id="member-search" placeholder="Type a name or member number to search…" class="input mb-2" autocomplete="off">
-                    <select id="member_id" name="member_id" required class="input" size="1">
+                    <input type="search" id="member-search" placeholder="Type a name, member number or savings account number…" class="input mb-2" autocomplete="off">
+                    <select aria-label="Selected member" id="member_id" name="member_id" required class="input" size="1">
                         <option value="">Choose member…</option>
                         @foreach ($options as $id => $text)
                             <option value="{{ $id }}" @selected((string) old('member_id') === (string) $id)>{{ $text }}</option>
@@ -74,7 +74,7 @@
                         @endforeach
                     </select>
                     <div class="mt-2 hidden" id="ref-box">
-                        <input name="payment_ref" id="payment_ref" value="{{ old('payment_ref') }}" maxlength="60" class="input" placeholder="Check / transfer / wallet no.">
+                        <input aria-label="Payment reference" name="payment_ref" id="payment_ref" value="{{ old('payment_ref') }}" maxlength="60" class="input" placeholder="Check / transfer / wallet no.">
                     </div>
                 </div>
 
@@ -90,7 +90,7 @@
 
                 <div class="md:col-span-2 flex items-center gap-3">
                     <button class="btn btn-primary" id="submit-btn">Post transaction</button>
-                    <span class="text-[11px] text-outline">A printable slip opens after posting.</span>
+                    <span class="text-xs text-outline">A printable slip opens after posting.</span>
                 </div>
             </form>
         @endif
@@ -114,7 +114,7 @@
                         <td class="font-mono text-[12px] font-semibold text-primary">{{ $t->reference_no }}</td>
                         <td>{{ $t->posted_at->format('M d, Y h:i A') }}</td>
                         <td>{{ $t->member?->full_name }}</td>
-                        <td><span class="inline-flex px-2 py-0.5 rounded text-[11px] font-semibold {{ $t->badge() }}">{{ $t->label() }}</span></td>
+                        <td><span class="inline-flex px-2 py-0.5 rounded text-xs font-semibold {{ $t->badge() }}">{{ $t->label() }}</span></td>
                         <td class="num font-bold {{ $t->direction === 'in' ? 'text-secondary' : '' }} {{ $t->status === 'voided' ? 'line-through opacity-60' : '' }}">{{ $t->direction === 'in' ? '+' : '-' }}@peso($t->amount)</td>
                         <td class="num">{{ $t->balance_after !== null ? '₱' . number_format($t->balance_after, 2) : '—' }}</td>
                         <td>{{ $t->user?->name }}</td>
@@ -135,7 +135,7 @@
             <tbody>
                 @foreach ($members as $m)
                     <tr>
-                        <td><a href="{{ route('members.show', $m) }}" class="font-medium text-primary">{{ $m->last_name }}, {{ $m->first_name }}</a><div class="text-[11px] text-outline">{{ $m->member_no }}</div></td>
+                        <td><a href="{{ route('members.show', $m) }}" class="font-medium text-primary">{{ $m->last_name }}, {{ $m->first_name }}</a><div class="text-xs text-outline">{{ $m->savings_account_no }} · {{ $m->member_no }}</div></td>
                         <td class="num font-semibold">@peso($m->savings)</td>
                         <td class="no-print text-right"><a href="{{ route('savings.statement', $m) }}" class="btn btn-secondary btn-sm">Statement</a></td>
                     </tr>

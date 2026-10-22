@@ -4,6 +4,22 @@
 
 body {
     font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+}
+h1, h2, h3 { letter-spacing: -0.02em; }
+
+/* Keyboard users jump straight to the page content */
+.skip-link {
+    position: absolute; left: 8px; top: -64px; z-index: 100;
+    padding: 10px 16px; background: #00236f; color: #ffffff; font-weight: 600; border-radius: 6px;
+}
+.skip-link:focus { top: 8px; }
+
+/* One visible focus ring for everything interactive */
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, [tabindex]:focus-visible {
+    outline: 2px solid #1e3a8a;
+    outline-offset: 2px;
 }
 
 .app-card {
@@ -14,7 +30,7 @@ body {
 .field-label {
     display: block;
     margin-bottom: 4px;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 600;
     letter-spacing: 0.04em;
     text-transform: uppercase;
@@ -22,6 +38,7 @@ body {
 }
 .input {
     width: 100%;
+    min-height: 44px;
     padding: 8px 10px;
     font-size: 14px;
     color: #131b2e;
@@ -30,10 +47,9 @@ body {
     border-radius: 6px;
 }
 .input:focus {
-    outline: 2px solid #1e3a8a;
     background: #ffffff;
 }
-.field-hint { margin-top: 4px; font-size: 12px; color: #757682; }
+.field-hint { margin-top: 4px; font-size: 12px; color: #5a5d69; }
 .field-error { margin-top: 4px; font-size: 12px; color: #ba1a1a; }
 
 /* ---- Buttons ---- */
@@ -41,14 +57,15 @@ body {
     display: inline-flex;
     align-items: center;
     gap: 6px;
+    min-height: 44px;
     padding: 8px 14px;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 600;
     border-radius: 6px;
     border: 1px solid transparent;
     cursor: pointer;
     text-decoration: none;
-    transition: background 0.15s;
+    transition: background-color 0.15s;
 }
 .btn-primary { background: #00236f; color: #ffffff; }
 .btn-primary:hover { background: #1e3a8a; }
@@ -58,14 +75,15 @@ body {
 .btn-danger:hover { background: #ffdad6; }
 .btn-success { background: #006e2d; color: #ffffff; }
 .btn-success:hover { background: #005320; }
-.btn-sm { padding: 4px 10px; font-size: 12px; }
+.btn-sm { position: relative; min-height: 32px; padding: 4px 10px; font-size: 13px; }
+.btn-sm::after { content: ""; position: absolute; inset: -6px 0; }   /* 44px hit area without a taller button */
 
 /* ---- Tables ---- */
-.data-table { width: 100%; text-align: left; font-size: 12px; }
+.data-table { width: 100%; text-align: left; font-size: 14px; }
 .data-table thead { background: #f2f3ff; color: #444651; }
 .data-table th {
     padding: 10px 12px;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 600;
     letter-spacing: 0.04em;
     text-transform: uppercase;
@@ -77,22 +95,22 @@ body {
 
 /* ---- Teller workspace: compact, operational ---- */
 .tl-panel { background: #ffffff; border: 1px solid #c5c5d3; border-radius: 6px; }
-.tl-head { padding: 6px 10px; font-size: 11px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: #444651; background: #eaedff; border-bottom: 1px solid #c5c5d3; border-radius: 6px 6px 0 0; }
+.tl-head { padding: 6px 10px; font-size: 12px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: #444651; background: #eaedff; border-bottom: 1px solid #c5c5d3; border-radius: 6px 6px 0 0; }
 .tl-body { padding: 10px; }
-.tl-field label { display: block; margin-bottom: 2px; font-size: 10px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: #444651; }
+.tl-field label { display: block; margin-bottom: 2px; font-size: 12px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: #444651; }
 .tl-field .input { padding: 5px 8px; font-size: 13px; }
 .tl-big { font-size: 22px; font-weight: 800; padding: 6px 10px; text-align: right; font-variant-numeric: tabular-nums; }
 .tl-bal { border: 1px solid #c5c5d3; border-radius: 6px; padding: 6px 10px; background: #f8f9ff; }
-.tl-bal .k { font-size: 10px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: #444651; }
+.tl-bal .k { font-size: 12px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: #444651; }
 .tl-bal .v { font-size: 20px; font-weight: 800; line-height: 1.2; font-variant-numeric: tabular-nums; color: #131b2e; }
 .tl-bal.alert { background: #ffdad6; border-color: #ba1a1a; }
 .tl-bal.alert .v { color: #93000a; }
 .tl-bal.good .v { color: #006e2d; }
 .tl-sum { display: flex; justify-content: space-between; gap: 8px; padding: 3px 0; border-bottom: 1px dotted #c5c5d3; font-size: 13px; }
 .tl-sum strong { font-variant-numeric: tabular-nums; }
-.tl-badge { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 700; }
+.tl-badge { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 12px; font-weight: 700; }
 .tl-table { width: 100%; font-size: 13px; }
-.tl-table th { padding: 4px 6px; font-size: 10px; letter-spacing: 0.05em; text-transform: uppercase; text-align: left; background: #f2f3ff; color: #444651; white-space: nowrap; }
+.tl-table th { padding: 4px 6px; font-size: 12px; letter-spacing: 0.05em; text-transform: uppercase; text-align: left; background: #f2f3ff; color: #444651; white-space: nowrap; }
 .tl-table td { padding: 4px 4px; border-top: 1px solid #eaedff; vertical-align: middle; }
 .tl-table .input { padding: 4px 6px; font-size: 13px; }
 .tl-table tr.over .amount-input { border-color: #ba1a1a; background: #ffdad6; }
@@ -102,6 +120,15 @@ body {
 #member-results { position: absolute; z-index: 30; left: 0; right: 0; top: 100%; background: #fff; border: 1px solid #c5c5d3; border-radius: 6px; box-shadow: 0 6px 16px rgba(0,0,0,.12); max-height: 260px; overflow-y: auto; }
 #member-results button { display: block; width: 100%; text-align: left; padding: 7px 10px; font-size: 13px; }
 #member-results button:hover, #member-results button.active { background: #e2e7ff; }
+
+/* ---- Motion and contrast preferences ---- */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
+}
+@media (prefers-contrast: more) {
+    .input, .btn-secondary, .tl-panel, .tl-bal { border-width: 2px; border-color: #131b2e; }
+    .data-table thead, .tl-head { background: #ffffff; border-bottom: 2px solid #131b2e; }
+}
 
 /* ---- Printing: show only the page content, not the menu ---- */
 @media print {

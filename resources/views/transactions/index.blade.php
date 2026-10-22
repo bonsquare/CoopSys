@@ -38,8 +38,8 @@
                     <tr>
                         <td class="font-mono text-[12px] font-semibold text-primary">{{ $t->reference_no }}</td>
                         <td>{{ $t->posted_at->format('M d, Y h:i A') }}</td>
-                        <td>{{ $t->member?->full_name ?? '—' }}<div class="text-[11px] text-outline">{{ $t->member?->member_no }}</div></td>
-                        <td><span class="inline-flex px-2 py-0.5 rounded text-[11px] font-semibold {{ $t->badge() }}">{{ $t->label() }}</span></td>
+                        <td>{{ $t->member?->full_name ?? '—' }}<div class="text-xs text-outline">{{ $t->member?->member_no }}</div></td>
+                        <td><span class="inline-flex px-2 py-0.5 rounded text-xs font-semibold {{ $t->badge() }}">{{ $t->label() }}</span></td>
                         <td class="num font-bold {{ $t->direction === 'in' ? 'text-secondary' : '' }} {{ $t->status === 'voided' ? 'line-through opacity-60' : '' }}">{{ $t->direction === 'in' ? '+' : '-' }}@peso($t->amount)</td>
                         <td>{{ $t->user?->name ?? 'System' }}</td>
                         <td><span class="{{ $t->status === 'completed' ? 'text-secondary' : 'text-error' }} font-semibold">{{ ucfirst($t->status) }}</span></td>

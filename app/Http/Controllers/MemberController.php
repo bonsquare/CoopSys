@@ -19,6 +19,7 @@ class MemberController extends Controller
                 $w->where('first_name', 'like', "%$search%")
                     ->orWhere('last_name', 'like', "%$search%")
                     ->orWhere('member_no', 'like', "%$search%")
+                    ->orWhere('savings_account_no', 'like', "%$search%")
                     ->orWhere('contact_no', 'like', "%$search%");
             }))
             ->when(in_array($status, ['active', 'inactive']), fn ($q) => $q->where('status', $status))

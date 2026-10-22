@@ -23,18 +23,19 @@
     <div class="overflow-x-auto">
         <table class="data-table">
             <thead>
-                <tr><th>Member No.</th><th>Name</th><th>Contact</th><th>Date Joined</th><th class="num">Subscribed</th><th>Status</th><th class="text-center no-print">Action</th></tr>
+                <tr><th>Member No.</th><th>Savings Acct No.</th><th>Name</th><th>Contact</th><th>Date Joined</th><th class="num">Subscribed</th><th>Status</th><th class="text-center no-print">Action</th></tr>
             </thead>
             <tbody>
                 @forelse ($members as $m)
                     <tr>
                         <td class="font-mono text-[12px] font-semibold text-primary">{{ $m->member_no }}</td>
+                        <td class="font-mono text-[12px]">{{ $m->savings_account_no }}</td>
                         <td class="font-medium text-on-surface">{{ $m->last_name }}, {{ $m->first_name }}</td>
                         <td>{{ $m->contact_no ?: '—' }}</td>
                         <td>{{ $m->date_joined->format('M d, Y') }}</td>
                         <td class="num">@peso($m->subscribed_shares)</td>
                         <td>
-                            <span class="inline-flex px-2 py-0.5 rounded text-[11px] font-semibold {{ $m->status === 'active' ? 'bg-secondary-fixed text-on-secondary-fixed' : 'bg-surface-container text-outline' }}">{{ ucfirst($m->status) }}</span>
+                            <span class="inline-flex px-2 py-0.5 rounded text-xs font-semibold {{ $m->status === 'active' ? 'bg-secondary-fixed text-on-secondary-fixed' : 'bg-surface-container text-outline' }}">{{ ucfirst($m->status) }}</span>
                         </td>
                         <td class="text-center no-print whitespace-nowrap">
                             <a href="{{ route('members.show', $m) }}" class="btn btn-secondary btn-sm">View</a>

@@ -40,7 +40,7 @@
                 @endforeach
                 <tr>
                     <td>{{ $s['label'] }}
-                        <div class="text-[11px] text-outline">Net surplus for the period, less any amount closed into retained surplus at year-end.</div></td>
+                        <div class="text-xs text-outline">Net surplus for the period, less any amount closed into retained surplus at year-end.</div></td>
                     <td class="num">@acct($s['opening'])</td>
                     <td class="num {{ $s['net'] >= 0 ? 'text-secondary' : 'text-error' }}">@acct($s['net'])</td>
                     <td class="num text-error">{{ abs($s['closed']) >= 0.005 ? '(' . number_format(abs($s['closed']), 2) . ')' : '' }}</td>
